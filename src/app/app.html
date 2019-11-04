@@ -1,0 +1,55 @@
+<ion-menu #menu id="main-menu" [content]="appcontent">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Cài đặt</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list *ngIf="show_ip">
+      <ion-item>
+        <ion-label>Địa chỉ nội bộ
+          <br>(http://10.51.188.10/apiv2/)
+          <br>
+          <span class="get_link" (click)="get_link('http://10.51.188.10/apiv2/')"> Get link</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Địa chỉ mạng internet
+          <br>(http://113.161.7.86/apiv2/)
+          <br>
+          <span class="get_link" (click)="get_link('http://113.161.7.86/apiv2/')"> Get link</span>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="(ip)" [(ngModel)]="ip" clearInput="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <button item-end ion-button small menuClose (click)="do_insert_()">OK</button>
+      </ion-item>
+    </ion-list>
+
+    <!-- <div text-center *ngIf="!show_ip">
+        <img src="assets/imgs/person.png" class="custom-avatar" />
+        <h3>{{ username }}</h3>
+        <p>{{ dien_thoai }}</p>
+        <hr>
+      </div> -->
+<!-- 
+    <ion-list *ngIf="!show_ip">
+        <button ion-item menuClose *ngFor="let p of pages; let i = index" (click)="openPage(menu,p,i)">
+          <ion-icon item-start [name]="p.icon" [color]="p.color"></ion-icon>
+          {{ p.title }}
+        </button>
+        
+        <button ion-item menuClose (click)="check_log_out()">
+          <ion-icon item-start ios="ios-log-out" md="md-log-out"></ion-icon>
+          Đăng xuất
+        </button>
+      </ion-list> -->
+      
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav id="nav" [root]="rootPage1" #appcontent swipeBackEnabled="false"></ion-nav>

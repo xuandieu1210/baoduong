@@ -1,0 +1,87 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+.get_link {
+	color: #0751d4;
+	text-decoration: underline;
+}
+.custom-avatar {
+	height: 24vw;
+	width: 24vw;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 4px;
+  }
+
+  
+.customToastClass{
+	.toast-wrapper {
+	  background-color: silver !important;
+	  font-weight: bold;
+	  position: absolute;
+	  top: 60% !important;
+	  text-align: center !important;
+	  border-radius: 20px !important;
+	  width: 90% !important;
+	}
+	.toast-message{
+
+		color: green;
+		
+	}
+}
+
+.dangerToastClass{
+	.toast-wrapper {
+	  background-color: silver !important;
+	  font-weight: bold;
+	  position: absolute;
+	  top: 60% !important;
+	  text-align: center !important;
+	  border-radius: 20px !important;
+	  width: 90% !important;
+	}
+	.toast-message{
+
+		color: red;
+		
+	}
+}
+// ion-icon {
+// 	&[class*="cameraIcon-"] {
+// 		position: absolute;
+// 		top: 27%;
+// 		left: 40%;
+// 		zoom: 1.5;
+// 		font-size: 200%;
+// 	}
+  
+// 	&[class*="cameraIcon-1"] {
+// 	  mask-image: url('../assets/imgs/setting.png');
+// 	}
+// 	&[class*="cameraIcon-2"] {
+// 	  mask-image: url('../assets/imgs/check.png');
+// 	}
+// 	&[class*="cameraIcon-3"] {
+// 	  mask-image: url('../assets/imgs/list.png');
+// 	}
+// 	&[class*="cameraIcon-4"] {
+// 		mask-image: url('../assets/imgs/account.png');
+// 	  }
+//   }

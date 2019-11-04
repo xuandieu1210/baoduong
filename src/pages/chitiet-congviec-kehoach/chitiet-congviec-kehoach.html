@@ -1,0 +1,202 @@
+<!--
+  Generated template for the ChitietCongviecKehoachPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="navbarColor">
+    <ion-buttons left (click)="closeModals()">
+      <button ion-button icon-only>
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+
+    <ion-buttons right (click)="do_take_photo_dotbd()" [hidden]="((appType == 'kehoach') || (pageIndex == '2') || (pageIndex == '3'))">
+      <button ion-button icon-only>
+        <ion-icon name="camera"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-buttons right (click)="do_show_anh_dotbd()" [hidden]="((appType == 'kehoach') || (pageIndex == '1'))">
+      <button ion-button icon-only>
+        <ion-icon name="images"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <!-- <ion-refresher (ionRefresh)="doRefresh($event)" (ionPull)="doPulling($event)">
+    <ion-refresher-content pullingText="Pull to refresh..." refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher> -->
+
+  <ion-scroll scrollX="true" scrollY="true" [ngClass]="{'full_screen': !(appType == 'dangthuchien') , 'not_full_screen': (appType == 'dangthuchien')}">
+    <ion-list class="accordion-list">
+      <!-- First Level -->
+      <ion-list-header *ngFor="let item of keys; let i = index" no-lines no-padding>
+        <!-- Toggle Button -->
+        <button ion-item text-wrap (click)="toggleSection(i)" detail-none [ngClass]="{'section-active': isGroupShown(i), 'section': !isGroupShown(i)}">
+          <ion-icon color="success" item-right [name]="isGroupShown(i) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+          {{ item }}
+        </button>
+
+        <ion-list *ngIf="isGroupShown(i)">
+          <!-- Second Level -->
+          <ion-list-header *ngFor="let child of ds_congviec[item]; let j = index" no-padding>
+            
+            <!-- Direct Add Button as Fallback -->
+            <ion-item ion-item detail-none class="child-item" text-wrap>
+              <ion-grid item-content>
+              <ion-row class="row_cv_top">
+                <ion-col col-3>
+                  <p class="tieu_de">Nội dung:</p>
+                </ion-col>
+                <ion-col>
+                  <p class="noi_dung_chinh">{{ child.NOIDUNG.NOIDUNG }}</p>
+                </ion-col>
+              </ion-row>
+              <ion-row class="row_cv" [hidden]="pageIndex == '1'">
+                <ion-col col-3>
+                  <p class="tieu_de">Nhân viên:</p>
+                </ion-col>
+                <ion-col>
+                  <p class="noi_dung">{{ child.NHANVIEN }}</p>
+                </ion-col>
+              </ion-row>
+      
+              <ion-row class="row_cv" >
+                
+                <ion-col  col-3>
+                  <p class="tieu_de">Trạng thái:</p>
+                </ion-col>
+                <ion-col>
+                    <!-- <p [ngClass]="{'noi_dung_ketqua_dat': check_ketqua_dat(child.TRANGTHAI) , 'noi_dung_ketqua_chua_dat': !check_ketqua_dat(child.TRANGTHAI)}">{{ child.TRANGTHAI }}</p> -->
+                    <p class="noi_dung_ketqua_chua_dat" [hidden] = "child.TRANGTHAI == null">{{ child.TRANGTHAI }}</p>
+                    <p class="noi_dung_canh_bao"  [hidden] = "child.TRANGTHAI != null">Chờ</p>
+                    <!-- <p class="noi_dung_canh_bao" [hidden]="((appType == 'kehoach') || (pageIndex == '1') || (ham_bo_dau(child.TRANGTHAI) == 'cho xac nhan') || (ham_bo_dau(child.TRANGTHAI) == 'hoan thanh'))">(Nhân viên bảo dưỡng chưa hoàn thành)</p> -->
+                </ion-col>
+                
+                <ion-col >
+                    <p class="tieu_de">Hình Ảnh: <span *ngIf = "child.ANH != null" class="tieu_de_xemanh"  (click)="xem_anh(child.ANH)">Xem</span> </p> 
+                </ion-col>
+                <ion-col text-right no-padding >
+                  <div no-padding >
+                    <button [hidden] = "pageIndex == '3'" ion-button class="button_dat" color="red" small outline (click)="start_camera(child)">Đăng Ảnh</button>
+                    
+                  </div>
+
+                </ion-col>
+              </ion-row>
+
+              <ion-row class="row_cv" >
+                
+                  <ion-col  col-3>
+                    <p class="tieu_de">Kết quả:</p>
+                  </ion-col>
+                  <ion-col>
+                      <!-- <p [ngClass]="{'noi_dung_ketqua_dat': check_ketqua_dat(child.TRANGTHAI) , 'noi_dung_ketqua_chua_dat': !check_ketqua_dat(child.TRANGTHAI)}">{{ child.TRANGTHAI }}</p> -->
+                      <p class="noi_dung_ketqua_chua_dat" [hidden] = "child.KETQUA == null">{{ child.KETQUA }}</p>
+                      <p class="noi_dung_canh_bao"  [hidden] = "child.KETQUA != null">Chờ</p>
+                      <!-- <p class="noi_dung_canh_bao" [hidden]="((appType == 'kehoach') || (pageIndex == '1') || (ham_bo_dau(child.TRANGTHAI) == 'cho xac nhan') || (ham_bo_dau(child.TRANGTHAI) == 'hoan thanh'))">(Nhân viên bảo dưỡng chưa hoàn thành)</p> -->
+                  </ion-col>
+                  
+                  <ion-col >
+                      <p class="tieu_de">Xác nhận:</p>
+                  </ion-col>
+                  <ion-col text-right no-padding>
+                    <div no-padding [hidden]="((ham_bo_dau(child.TRANGTHAI) == 'cho xac nhan') || (ham_bo_dau(child.TRANGTHAI) == 'hoan thanh') || (pageIndex == '2') || (pageIndex == '3'))">
+                      <button ion-button class="button_dat" color="secondary" small outline (click)="check_hoanthanh_congviec_canhan(child)">Hoàn thành</button>
+                    </div>
+  
+                    <div no-padding [hidden]="((ham_bo_dau(child.KETQUA) == 'dat') || (ham_bo_dau(child.KETQUA) == 'khong dat') || (pageIndex == '1') || (pageIndex == '3'))">
+                      <button ion-button class="button_dat" color="secondary" small outline (click)="check_xacnhan_congviec_to_truong(child)">Xác nhận</button>
+                    </div>
+  
+                    <div no-padding [hidden]="(!((ham_bo_dau(child.KETQUA) == 'dat') || (ham_bo_dau(child.KETQUA) == 'khong dat')) || (pageIndex == '1') || (pageIndex == '3'))">
+                        <button ion-button class="button_dat" color="huy_button" small outline (click)="check_huy_xac_nhan_congviec(child)">Hủy xác nhận</button>
+                    </div>
+                  </ion-col>
+              </ion-row>
+              <ion-row class="row_cv_bottom" [hidden]="appType == 'kehoach'">
+                <ion-col col-3>
+                  
+                  <p *ngIf="pageIndex == '1'" [ngClass]="{'tieu_de_ghichu': child.NOIDUNG.YEUCAUNHAP == '0' , 'tieu_de_ghichu_batbuoc': !(child.NOIDUNG.YEUCAUNHAP == '0')}"
+                    (click)="do_show_modals_luu_ghi_chu(child,'ModalsLuuGhiChuPage')">Ghi chú:</p>
+                  <p></p>
+                  <p  class="tieu_de" *ngIf="(pageIndex == '2') || (pageIndex == '3')">Ghi chú:</p>
+                  
+                </ion-col>
+                <ion-col >
+                  <!-- [ngClass]="{'noi_dung_ketqua_dat': check_ketqua_dat(child.KETQUA) , 'noi_dung_ketqua_chua_dat': !check_ketqua_dat(child.KETQUA)}" -->
+                  <p class="noi_dung1">{{ child.GHICHU }} </p> 
+                  
+                </ion-col>
+                
+              </ion-row>
+              <ion-row class="row_cv_bottom" [hidden]="appType == 'kehoach'">
+                <ion-col col-3>
+                  <p *ngIf="pageIndex == '1'" [ngClass]="{'tieu_de_ghichu': child.NOIDUNG.YEUCAUNHAP == '0' , 'tieu_de_ghichu_batbuoc': !(child.NOIDUNG.YEUCAUNHAP == '0')}"
+                  (click)="do_show_modals_luu_kien_nghi(child, 'ModalLuuKienNghiPage')">Kiến Nghị:</p>
+                <p></p>
+                <p  class="tieu_de" *ngIf="(pageIndex == '2') || (pageIndex == '3')">Kiến Nghị:</p>
+                  
+                </ion-col>
+                <ion-col >
+                  <!-- [ngClass]="{'noi_dung_ketqua_dat': check_ketqua_dat(child.KETQUA) , 'noi_dung_ketqua_chua_dat': !check_ketqua_dat(child.KETQUA)}" -->
+                  <p class="noi_dung1">{{ child.KIENNGHI }} </p> 
+                  
+                </ion-col>
+              </ion-row>
+              <ion-row class="row_cv_bottom" [hidden]="appType == 'kehoach'">
+                <ion-col col-3>
+                  <p *ngIf="pageIndex == '1'" [ngClass]="{'tieu_de_ghichu': child.NOIDUNG.YEUCAUNHAP == '0' , 'tieu_de_ghichu_batbuoc': !(child.NOIDUNG.YEUCAUNHAP == '0')}"
+                  (click)="post_so_lieu(child, 'SOLIEUTHUCTE')">Số liệu:</p>
+                <p></p>
+                <p  class="tieu_de" *ngIf="(pageIndex == '2') || (pageIndex == '3')">Số liệu:</p>
+                  
+                </ion-col>
+                <ion-col >
+                  <!-- [ngClass]="{'noi_dung_ketqua_dat': check_ketqua_dat(child.KETQUA) , 'noi_dung_ketqua_chua_dat': !check_ketqua_dat(child.KETQUA)}" -->
+                  <p class="noi_dung1">{{ child.SOLIEUTHUCTE }} </p> 
+                  
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+            </ion-item>
+          
+          </ion-list-header>
+
+        </ion-list>
+      </ion-list-header>
+    </ion-list>
+  </ion-scroll>
+
+  <!-- <ion-list>
+    <ion-item class="item_nhanvien">
+      <ion-select class="select_nhanvien" col-11 [(ngModel)]="nhanvien_select" (ionChange)="nhanvienChange($event)" interface="popover">
+        <ion-option *ngFor="let nhanvien of ds_nhanvien" [value]="nhanvien">{{ nhanvien.TEN_NHANVIEN}}</ion-option>
+      </ion-select>
+      <button item-end ion-button color="primary" small outline class="button_xem" (click)="do_click_button()">Xem ảnh</button>
+    </ion-item>
+  </ion-list> -->
+  
+    <ion-row>
+      <ion-col col-6 no-padding>
+        <button class="button_css" ion-button [hidden]="(pageIndex == '1') || (appType == 'kehoach') || (pageIndex == '3')" (click)="doAlert_xacnhan_tatca_congviec()">Xác
+          nhận tất cả</button>
+      </ion-col>
+      <ion-col no-padding>
+        <button ion-button class="button_css" [hidden]="(pageIndex == '1') || (appType == 'kehoach') || (pageIndex == '3')" (click)="do_take_photo_dotbd()">
+          Hoàn thành Đbd</button>
+      </ion-col>
+    </ion-row>
+ 
+
+</ion-content>

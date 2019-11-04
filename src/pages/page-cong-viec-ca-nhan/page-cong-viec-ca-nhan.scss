@@ -1,0 +1,187 @@
+page-page-cong-viec-ca-nhan {
+  .title_cv{
+    margin-left: -20px;
+  }
+  .accordion-list {
+    background: color($colors, light);
+    height: 100%;
+  }
+  .row_bd_kehoach {
+    padding: 0px;
+    margin-bottom: -6px;
+    margin-top: -6px;
+  }
+  .row_bd_kehoach1 {
+    padding: 0px;
+    margin-bottom: -6px;
+    margin-top: -6px;
+    margin-left: 4px;
+  }
+  .tieude_baoduong {
+    font-size: 15px;
+    color: red;
+    font-weight: bold;
+  }
+  .tieude_baoduong1 {
+    font-size: 14px;
+    color: #102078;
+  }
+  .icon_arrow {
+    zoom: 2;
+    margin-top: 4px;
+  }
+  
+  .section {
+    //background: #fff;
+    color: #102078; //margin-bottom: 4px;
+    font-size: 15px;
+    
+  }
+  .section_sub {
+    background: #FFFBD1;
+    color: #102078;
+    margin-left: 4px;
+  }
+  .section-active {
+    background: #102078;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .section-active-sub {
+    background: #94AAD6;
+    color: white;
+    font-weight: bold;
+    margin-left: 4px;
+  }
+  .section_name_dotbd {
+    //background: #fff;
+    color: #102078; //margin-bottom: 4px;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .section-active_name_dotbd {
+    color: #102078;
+    font-size: 15px;
+    font-weight: bold;
+  }
+  .section_diachi {
+    color: black;
+    font-style: italic;
+    word-break: hyphenate;
+    font-size: 13px;
+  }
+  .section-active_diachi {
+    font-style: italic;
+    word-break: hyphenate;
+    color: white;
+    font-size: 13px;
+  }
+  .section-active_tram {
+    font-style: italic;
+    word-break: hyphenate;
+    font-size: 16px;
+  }
+  .not_full_screen {
+    width: 100%;
+    height: 91%;
+  }
+
+  .item-left {
+    float: left;
+    width: 80%;
+    
+  }
+
+  .item-right {
+    text-align: center;
+
+  }
+  .text-null {
+    text-align: center;
+    color: red;
+    margin-top: 10px;
+  }
+  // .ngay {
+  //   color: black;
+  // }
+  // .ngay_active {
+  //   font-weight: normal;
+  // }
+  // .div_button_upload_image {
+  //   position: relative;
+  //   height: 100%;
+  //   .button_upload_image {
+  //     position: absolute;
+  //     margin-top: 35%;
+  //     font-size: 12px;
+  //   }
+  // }
+  // .div_button_show_image {
+  //   position: relative;
+  //   height: 100%;
+  //   .button_show_image {
+  //     position: absolute;
+  //     margin-top: 31%;
+  //     font-size: 12px;
+  //   }
+  // }
+  // .div_icon_arrow {
+  //   position: relative;
+  //   height: 100%;
+  //   .icon_arrow {
+  //     position: absolute;
+  //     margin-top: 11px;
+  //     margin-left: 3px;
+  //     zoom: 2;
+  //   }
+  // }
+  // .child-item {
+  //   //background: red;// #f3f2f1;
+  //   padding-left: 5px;
+  //   padding-right: 0px;
+  //   margin-bottom: -10px;
+  // }
+  // .noi_dung_chinh {
+  //   color: #4caf50;
+  //   font-size: 14px;
+  //   margin-left: -33px;
+  // }
+  // .tieu_de {
+  //   font-size: 13px;
+  // }
+  // .noi_dung {
+  //   word-wrap: break-word;
+  //   width: 100%;
+  //   color: #87CEFA;
+  //   font-size: 13px;
+  //   margin-left: -33px;
+  // }
+  // .noi_dung_tthai {
+  //   word-wrap: break-word;
+  //   width: 100%;
+  //   color: #8000ff;
+  //   font-size: 13px;
+  //   margin-left: -33px;
+  //   font-weight: bold;
+  // }
+  // .row_cv_top {
+  //   padding: 0px;
+  //   margin-top: -6px;
+  //   margin-bottom: -7px;
+  // }
+  // .row_cv {
+  //   padding: 0px;
+  //   margin-bottom: -7px;
+  //   margin-top: -8px;
+  // }
+  // .row_cv_bottom {
+  //   padding: 0px;
+  //   margin-bottom: -5px;
+  //   margin-top: -8px;
+  // }
+  // .button {
+  //   font-size: 12px;
+  //   margin-top: -1px;
+  // }
+}

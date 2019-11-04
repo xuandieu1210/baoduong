@@ -1,0 +1,41 @@
+page-home {
+    .background_image {
+        background-image: url('../assets/imgs/back_ground9.jpg');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+    }
+    .list {
+        border-bottom: 1px solid #56cff4;
+        margin-bottom: 20px;
+        
+    }
+    .item_background {
+        padding: 0px !important;
+        font-size: 14px;
+        border-bottom: 1px solid #56cff4;
+        background: none;
+        box-shadow: none;
+    }
+    .input {
+        color: black;
+        border-bottom-color: #56cff4;
+        //#56cff4;
+        box-shadow: none;
+    }
+    .center {
+        //width: 100%;
+        margin-top: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+    }
+    .app-name {
+        text-align: center;
+        color: sienna;
+        font-weight: bold; 
+        margin-bottom: 30px;
+    }
+
+}

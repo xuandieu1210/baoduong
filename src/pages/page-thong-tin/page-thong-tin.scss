@@ -1,0 +1,64 @@
+
+page-page-thong-tin {
+
+  
+  .background_image {
+    background-image: url('../assets/imgs/back_ground6.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+  }
+
+  .item_ttvt {
+    //margin-left: -6px;
+    width: 100%;
+  }
+
+  .item_tram {
+    //margin-left: -6px;
+    width: 100%;
+  }
+
+  .select_tram {
+    margin-right: 6px;
+  }
+
+  .dia_chi {
+    margin-top: -8px;
+    text-align: center;
+    color: #FF6600;
+    width: 100%;
+  }
+
+  .block {
+    position: relative;
+    margin-left: 0px;
+    margin-bottom: 1px;
+    width: 98%;
+    height: 140px;
+    text-align: center;
+    background-color: yellow;
+    border: 2px solid #008CBA;
+
+    .cameraIcon {
+      position: absolute;
+      top: 35px;
+      left: 55px;
+      width: 40%;
+      height: 40%;
+      // zoom: 0.5;
+      // font-size: 200%;
+    }
+  }
+
+  .card-title {
+    position: absolute;
+    top: 60%;
+    //font-weight: bold;
+    // color: #488aff;
+    font-size: 15px;
+    width: 98%;
+  }
+
+  
+}

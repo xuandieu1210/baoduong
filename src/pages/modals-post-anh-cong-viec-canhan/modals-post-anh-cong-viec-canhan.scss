@@ -1,0 +1,64 @@
+page-modals-post-anh-cong-viec-canhan {
+  .hinhanh_mota {
+    color: red;
+    font-size: 15px;
+  }
+  .hinhanh_mota1 {
+    font-size: 15px;
+    margin-top: -12px;
+  }
+  .block {
+    position: relative;
+    /*height: 100px;*/
+    margin-left: 0px;
+    margin-bottom: 1px;
+    width: 98%;
+    height: 150px;
+    .cameraIcon {
+      position: absolute;
+      margin-top: 3px;
+      margin-left: 7px;
+     // color: #488aff;
+      /* width: 40px;
+            height: 30px;*/
+      zoom: 1.5;
+    }
+    .imageIcon {
+      position: absolute;
+      margin-top: 3px;
+      margin-left: 30px;
+      //color: #488aff;
+      /* width: 40px;
+            height: 30px;*/
+      zoom: 1.5;
+    }
+    .trashIcon{
+      position: absolute;
+      margin-top: 3px;
+      right: 7px;
+      zoom: 1.5;
+    }
+  }
+  .cell_toa_do {
+    margin-top: 11px;
+    border: 1px solid #D7D7D7;
+    border-style: outset;
+    width: 98%;
+    height: 150px;
+  }
+  .Latitude {
+    margin-top: 0px;
+    margin-left: 3px;
+  }
+  .Longitude {
+    margin-top: -8px;
+    margin-left: 3px;
+  }
+  .thongso_toado {
+    color: brown;
+    font-weight: bold;
+  }
+  .button_hoanthanh {
+    margin-top: 8px;
+  }
+}

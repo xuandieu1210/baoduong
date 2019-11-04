@@ -1,0 +1,75 @@
+<!--
+  Generated template for the PageThongTinPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="navbarColor">
+    <ion-buttons right (click)="check_log_out()">
+      <button ion-button icon-only>
+        <ion-icon name="power"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="background_image">
+  <!-- select option trung tâm viễn thônng -->
+  <ion-list>
+    <ion-item class="item_ttvt">
+      <ion-label>Đài:</ion-label>
+      <ion-select class="select_tram" col-10 [(ngModel)]="ttvt_select" (ionChange)="ttvtChange($event)" interface="popover">
+        <ion-option *ngFor="let ttvt of ttvts" [value]="ttvt">{{ttvt.ten_dai}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- select option trạm thiết bị tại mỗi trung tâm viễn thông -->
+    <ion-item class="item_tram">
+      <ion-label>Trạm:</ion-label>
+      <ion-select class="select_tram" col-10 [(ngModel)]="tram_select" (ionChange)="tramChange($event)" interface="popover"
+        [disabled]="tram_disable">
+        <ion-option *ngFor="let tram of ds_tram" [value]="tram">{{tram.ten_tram}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <div class="dia_chi" [hidden]="hide_diachi">{{ dia_chi }}</div>
+
+  <ion-grid no-padding>
+    <ion-row no-padding>
+      <ion-col col-6 text-center>
+        <ion-card class="block" (click)="open_page(pages, 0)">
+          <img  class="cameraIcon" src="../assets/imgs/setting.png"/>
+          <ion-label [color]="pages[0].color" class="card-title">{{ pages[0].title_full }}</ion-label>
+        </ion-card>
+      </ion-col>
+      <ion-col col-6>
+        <ion-card class="block" (click)="open_page(pages, 1)">
+          <img   class="cameraIcon" src="../assets/imgs/check.png"/>
+          <!-- <div [color]="pages[1].color" class="card-title">{{ pages[1].title_full }}</div> -->
+          <ion-label [color]="pages[1].color" class="card-title">{{ pages[1].title_full }}</ion-label>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6>
+        <ion-card class="block" (click)="open_page(pages, 2)">
+          <img  class="cameraIcon" src="../assets/imgs/list.png"/>
+          <ion-label [color]="pages[2].color" class="card-title">{{ pages[2].title_full }}</ion-label>
+        </ion-card>
+      </ion-col>
+      <ion-col col-6>
+        <ion-card class="block" (click)="open_page(pages,3)">
+          <img  class="cameraIcon" src="../assets/imgs/account.png"/>
+          <ion-label [color]="pages[3].color" class="card-title">{{ pages[3].title_full }}</ion-label>
+          
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

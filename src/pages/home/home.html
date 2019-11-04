@@ -1,0 +1,52 @@
+<style type="text/css">
+::-webkit-input-placeholder {
+  color: #56cff4 !important;
+}
+:-moz-placeholder {
+  color: #56cff4 !important;
+}
+:-ms-input-placeholder {
+  color: #56cff4 !important;
+}
+</style>
+
+
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle="main-menu">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="background_image">
+  
+  <div>
+    <img class="center" src="assets/imgs/vnpt.png">
+    <p class ="app-name">PHẦN MỀM QUẢN LÝ BẢO DƯỠNG NHÀ TRẠM</p>
+  </div>
+
+  <ion-list class="list">
+    
+    <ion-item class="item_background" >
+      <ion-icon name="person" item-start color="primary"></ion-icon>
+      <ion-input class="input" type="text" [(ngModel)]="username" clearInput="true" autocomplete="true" placeholder="Tài khoản"></ion-input>
+    </ion-item>
+
+    <ion-item class="item_background">
+      <ion-icon name="key" item-start color="primary"></ion-icon>
+      <ion-input class="input" type="password" [(ngModel)]="password" clearInput="true" clearOnEdit="true" placeholder="Mật khẩu"></ion-input>
+    </ion-item>
+    
+  </ion-list>
+
+  <button ion-button round full (click)="do_check_network()">Đăng nhập</button>
+  
+</ion-content>
+
+<ion-footer>
+  <p text-center>Ver: {{ version }}</p>
+</ion-footer>

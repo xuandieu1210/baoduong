@@ -1,0 +1,51 @@
+page-modals-post-anh-cong-viec-to-truong {
+  .hinhanh_mota {
+    color: red;
+    font-size: 15px;
+  }
+
+  .hinhanh_mota1 {
+    font-size: 15px;
+    margin-top: -12px;
+  }
+
+  .block {
+    position: relative;
+    /*height: 100px;*/
+    margin-left: 0px;
+    margin-bottom: 1px;
+    width: 98%;
+    height: 110px;
+
+    .cameraIcon {
+      position: absolute;
+      margin-top: 3px;
+      margin-left: 7px;
+      // color: #488aff;
+      /* width: 40px;
+                height: 30px;*/
+      zoom: 1.5;
+    }
+
+    .imageIcon {
+      position: absolute;
+      margin-top: 3px;
+      margin-left: 30px;
+      //color: #488aff;
+      /* width: 40px;
+                height: 30px;*/
+      zoom: 1.5;
+    }
+
+    .trashIcon {
+      position: absolute;
+      margin-top: 3px;
+      right: 7px;
+      zoom: 1.5;
+    }
+  }
+
+  .button_hoanthanh {
+    margin-top: 8px;
+  }
+}

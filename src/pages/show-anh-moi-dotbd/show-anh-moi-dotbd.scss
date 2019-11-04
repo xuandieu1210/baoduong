@@ -1,0 +1,35 @@
+page-show-anh-moi-dotbd {
+    ion-card {
+        position: relative;
+        text-align: center;
+      }
+    
+      .card-title {
+        position: absolute;
+        top: 36%;
+        font-size: 2.0em;
+        width: 100%;
+        font-weight: bold;        
+      }
+      .card-title1{        
+          position: absolute;
+          top: 24%;
+          font-size: 1.0em;
+          width: 100%;
+          font-weight: bold;                
+      }
+    
+      .card-subtitle {
+        font-size: 1.0em;
+        position: absolute;
+        top: 54%;
+        width: 100%;       
+      }
+
+      .white_color{
+        color: white;
+      }
+      .red_color {
+        color: red;
+      }
+}

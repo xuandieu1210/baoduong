@@ -1,0 +1,256 @@
+<ion-header>
+  <ion-navbar color="navbarColor">
+
+    <ion-title class="title_cv">{{ title }}</ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <!-- component trung tâm viễn thônng, trạm -->
+  <!-- <dai-tram [ipContent]="ipContent" (data_output)="dosomething($event)"></dai-tram> -->
+
+  <!-- segment 3 tab điện, môi trường, ra vào -->
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="appType">
+      <ion-segment-button value="kehoach">
+        Kế hoạch
+      </ion-segment-button>
+      <ion-segment-button value="dangthuchien" ngSelected="selected">
+        Đang thực hiện
+      </ion-segment-button>
+      <!-- <ion-segment-button value="hoanthanh" >
+        Hoàn thành
+      </ion-segment-button> -->
+    </ion-segment>
+  </ion-toolbar>
+
+
+
+
+  <ion-scroll scrollX="true" scrollY="true" class="not_full_screen">
+    <div [ngSwitch]="appType">
+
+      <div *ngIf="hidden_bd_kehoach && !hide_diachi">
+        <ion-list *ngSwitchCase="'kehoach'" no-padding>
+          <ion-item *ngFor="let item_bd of ds_congviec_kehoach" no-padding>
+            <ion-row class="row_bd_kehoach" (click)="chitiet_congviec(item_bd)">
+              <ion-col col-10 text-wrap>
+                <div>
+                  <p class="tieude_baoduong">Đợt bảo dưỡng: {{ item_bd.MA_DOTBD }}</p>
+                  <!-- <p [hidden]="hide_diachi" class="section_diachi">{{ item_bd.dia_diem}}</p> -->
+                  <p>Ngày dự kiến: {{ item_bd.NGAY_DUKIEN}}</p>
+                  <p>Ngày dự kiến kiết thúc: {{ item_bd.NGAY_KT_DUKIEN}}</p>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div text-right>
+                  <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" (click)="chitiet_congviec(item_bd)"></ion-icon>
+                  <!-- <p class="chi_tiet" (click)="chitiet_congviec(item_bd)">.....</p> -->
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </ion-list>
+      </div>
+      
+        
+      <div  *ngIf="hidden_bd_kehoach && hide_diachi">
+        <ion-list  *ngSwitchCase="'kehoach'" class="accordion-list">
+          <!-- First Level -->
+          <ion-list-header *ngFor="let item of ds_congviec_kehoach; let i = index" no-lines no-padding>
+            <!-- Toggle Button -->
+            <button ion-item text-wrap (click)="toggleSection(i,'kehoach')" detail-none [ngClass]="{'section-active': isGroupShown(i,'kehoach'), 'section': !isGroupShown(i,'kehoach')}">
+              <div class="item-left">
+                <span class="section-active_tram">Trạm: {{ item.ThongTinTram.TEN_TRAM }}</span>
+                <p [ngClass]="{'section-active_diachi': isGroupShown(i,'kehoach'), 'section_diachi': !isGroupShown(i,'kehoach')}">{{
+                  item.ThongTinTram.DIADIEM }}</p>
+              </div>
+              <div class="item-right" >
+                  <p [ngClass]="{'section-active_diachi': isGroupShown(i,'kehoach'), 'section_diachi': !isGroupShown(i,'kehoach')}">Số đợt: {{item.DS_DotBaoDuong.length }}</p>   
+                  <ion-icon color="navbarColor" item-right [name]="isGroupShown(i,'kehoach') ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+              </div>
+            </button>
+
+            <ion-list *ngIf="isGroupShown(i,'kehoach') && item.DS_DotBaoDuong" no-padding>
+              <ion-item class="item_baoduong" *ngFor="let item_bd of item.DS_DotBaoDuong" no-padding>
+                <ion-row class="row_bd_kehoach1" (click)="chitiet_congviec(item_bd)">
+                  <ion-col col-10 text-wrap>
+                    <div>
+                      <p class="tieude_baoduong1">Đợt bảo dưỡng: {{ item_bd.MA_DOTBD }}</p>
+                      <!-- <p [hidden]="hide_diachi" class="section_diachi">{{ item_bd.dia_diem}}</p> -->
+                      <p>Ngày dự kiến: {{ item_bd.NGAY_DUKIEN}}</p>
+                      <p>Ngày dự kiến kết thúc: {{ item_bd.NGAY_KT_DUKIEN}}</p>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div text-right>
+                      <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" (click)="chitiet_congviec(item_bd)"></ion-icon>
+                      <!-- <p class="chi_tiet" (click)="chitiet_congviec(item_bd)">.....</p> -->
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+            </ion-list>
+
+          </ion-list-header>
+        </ion-list>
+      </div>
+
+  
+
+      <div *ngIf="hidden_bd_dangthuchien && !hide_diachi">
+        <ion-list *ngSwitchCase="'dangthuchien'" no-padding>
+          <ion-item class="item_baoduong" *ngFor="let item_bd of ds_congviec_dangthuchien" no-padding>
+            <ion-row class="row_bd_kehoach" (click)="chitiet_congviec(item_bd)">
+              <ion-col col-10 text-wrap>
+                <div>
+                  <p class="tieude_baoduong">Đợt bảo dưỡng: {{ item_bd.MA_DOTBD }}</p>
+                  <p>Ngày dự kiến kết thúc: {{ item_bd.NGAY_KT_DUKIEN}}</p>
+                </div>
+              </ion-col>
+              <ion-col>
+                <div text-right>
+                  <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" ></ion-icon>
+                  <!-- <p class="chi_tiet" (click)="chitiet_congviec(item_bd)">.....</p> -->
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div *ngIf="hidden_bd_dangthuchien && hide_diachi">
+        <ion-list *ngSwitchCase="'dangthuchien'" class="accordion-list">
+          <!-- First Level -->
+          <ion-list-header *ngFor="let item of ds_congviec_dangthuchien; let i = index" no-lines no-padding>
+            <!-- Toggle Button -->
+            <button ion-item text-wrap (click)="toggleSection(i,'dangthuchien')" detail-none [ngClass]="{'section-active': isGroupShown(i,'dangthuchien'), 'section': !isGroupShown(i,'dangthuchien')}">
+              <div class="item-left">
+                
+                <span class="section-active_tram">Trạm:  {{ item.ThongTinTram.TEN_TRAM }}</span>
+                <p [ngClass]="{'section-active_diachi': isGroupShown(i,'dangthuchien'), 'section_diachi': !isGroupShown(i,'dangthuchien')}">{{
+                  item.ThongTinTram.DIADIEM }}</p>
+              </div>
+              <div class="item-right" >
+                <p [ngClass]="{'section-active_diachi': isGroupShown(i,'dangthuchien'), 'section_diachi': !isGroupShown(i,'dangthuchien')}">Số đợt: {{item.DS_DotBaoDuong.length }}</p>
+                <ion-icon color="navbarColor" item-right [name]="isGroupShown(i,'dangthuchien') ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
+              </div>
+
+            </button>
+
+            <ion-list *ngIf="isGroupShown(i,'dangthuchien') && item.DS_DotBaoDuong" no-padding>
+              <ion-item class="item_baoduong" *ngFor="let item_bd of item.DS_DotBaoDuong" no-padding>
+                <ion-row class="row_bd_kehoach1" (click)="chitiet_congviec(item_bd)">
+                  <ion-col col-10 text-wrap>
+                    <div>
+                      <p class="tieude_baoduong1">Đợt bảo dưỡng: {{ item_bd.MA_DOTBD }}</p>
+                      <p>Ngày dự kiến kết thúc: {{ item_bd.NGAY_KT_DUKIEN}}</p>
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div text-right>
+                      <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow"></ion-icon>
+                      <!-- <p class="chi_tiet" (click)="chitiet_congviec(item_bd)">.....</p> -->
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+            </ion-list>
+
+          </ion-list-header>
+        </ion-list>
+      </div>
+
+
+      <div *ngIf="(!hidden_bd_kehoach || hide_diachi) && hidden_bd_dangthuchien">
+          <div *ngSwitchCase="'kehoach'"> 
+            <p class="text-null"> Không có đợt bảo dưỡng nào trong kế hoạch</p>
+          </div>  
+      </div> 
+      <div *ngIf="hidden_bd_kehoach && (!hidden_bd_dangthuchien || hide_diachi)">
+          <div *ngSwitchCase="'dangthuchien'"> 
+            <p class="text-null"> Không có đợt bảo dưỡng nào đang thực hiện</p>
+          </div>  
+      </div> 
+      <!-- <ion-list *ngSwitchCase="'hoanthanh'" class="accordion-list" no-padding>
+      
+      <ion-list-header *ngFor="let item of ds_congviec_hoanthanh; let i = index" no-lines no-padding>
+      
+        <ion-row [ngClass]="{'section-active': isGroupShown(i,'hoanthanh'), 'section': !isGroupShown(i,'hoanthanh')}">
+          <ion-col col-8 text-wrap>
+            <p [ngClass]="{'section-active_name_dotbd': isGroupShown(i,'hoanthanh'), 'section_name_dotbd': !isGroupShown(i,'hoanthanh')}">
+              {{ item.THONGTIN_DBD.MA_DOTBD }}
+            </p>
+            <p [ngClass]="{'section-active_diachi': isGroupShown(i,'hoanthanh'), 'section_diachi': !isGroupShown(i,'hoanthanh')}">{{
+              item.THONGTIN_DBD.TRAMVT.DIADIEM }}</p>
+            <p [ngClass]="{'ngay_active': isGroupShown(i,'hoanthanh'), 'ngay': !isGroupShown(i,'hoanthanh')}">Ngày kết
+              thúc: {{ item.THONGTIN_DBD.NGAY_KT }}</p>
+          </ion-col>
+          <ion-col col-3>
+            <div class="div_button_show_image">
+              <button ion-button item-right color="primary" small outline class="button_show_image" (click)="do_show_image_hoanthanh(item.THONGTIN_DBD.MA_DOTBD,item.THONGTIN_DBD.ID_DOTBD)">Xem
+                ảnh</button>
+            </div>
+          </ion-col>
+          <ion-col col-1>
+            <div class="div_icon_arrow">
+              <ion-icon item-right [name]="isGroupShown(i,'hoanthanh') ? 'arrow-dropdown' : 'arrow-dropright'" class="icon_arrow"
+                (click)="toggleSection(i,'hoanthanh')"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-list *ngIf="isGroupShown(i,'hoanthanh') && item.DS_CONGVIEC" no-padding>
+          
+          <ion-list-header *ngFor="let name_tbi of get_key_name_array(item.DS_CONGVIEC); let j = index" no-lines
+            no-padding>
+            
+            <button ion-item text-wrap (click)="toggleSection_sub(j,'hoanthanh')" detail-none [ngClass]="{'section-active-sub': isGroupShown_sub(j,'hoanthanh'), 'section_sub': !isGroupShown_sub(j,'hoanthanh')}">
+              <ion-icon color="success" item-right [name]="isGroupShown_sub(j,'hoanthanh') ? 'remove' : 'add'"></ion-icon>
+              {{ name_tbi }}
+            </button>
+
+            <ion-list *ngIf="isGroupShown_sub(j,'hoanthanh')" no-padding>
+              <ion-list-header *ngFor="let child of item.DS_CONGVIEC[name_tbi]; let k = index" no-padding>
+
+                <ion-item ion-item detail-none class="child-item" text-wrap>
+                  <ion-row class="row_cv_top">
+                    <ion-col col-3>
+                      <p class="tieu_de">N.dung:</p>
+                    </ion-col>
+                    <ion-col>
+                      <p class="noi_dung_chinh">{{ child.NOIDUNG.NOIDUNG }}</p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="row_cv">
+                    <ion-col col-3>
+                      <p class="tieu_de">K.quả:</p>
+                    </ion-col>
+                    <ion-col>
+                      <p class="noi_dung">{{ child.KETQUA }}</p>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row class="row_cv_bottom">
+                    <ion-col col-3>
+                      <p class="tieu_de">G.chú:</p>
+                    </ion-col>
+                    <ion-col>
+                      <p class="noi_dung">{{ child.GHICHU }}</p>
+                    </ion-col>
+                  </ion-row>
+                </ion-item>
+              </ion-list-header>
+            </ion-list>
+          </ion-list-header>
+        </ion-list>
+
+      </ion-list-header>
+    </ion-list> -->
+
+    </div>
+
+  </ion-scroll>
+</ion-content>

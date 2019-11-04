@@ -1,0 +1,32 @@
+page-modals-thong-tin-ca-nhan {
+  .background_image {
+    background-image: url('../assets/imgs/back_ground6.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+  }
+
+  .custom-avatar {
+    height: 40vw;
+    width: 40vw;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+  }
+
+  h3 {
+    margin-top: 10px;
+    margin-bottom: -10px;
+    color: red;
+    font-size: 30px;
+  }
+
+  p {
+    margin-bottom: 0px;
+    font-size: 20px;
+    color: blanchedalmond;
+  }
+}

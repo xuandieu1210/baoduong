@@ -1,0 +1,86 @@
+<!--
+  Generated template for the ModalsPostAnhCongViecCanhanPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="navbarColor">
+    <ion-buttons right (click)="closeModals()">
+      <button ion-button icon-only>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <!-- <p>
+    <span class="hinhanh_mota">*Hình ảnh mô tả công việc tại trạm (ít nhất 1 ảnh):</span>
+    <br>(Icon màu đỏ nghĩa là đã post ảnh ở khung hình đó)
+  </p> -->
+  <p class="hinhanh_mota">*Hình ảnh mô tả công việc tại trạm (yêu cầu 3 ảnh):</p>
+  <p class="hinhanh_mota1" [hidden]="pageIndex == '2'">(Icon màu đỏ nghĩa là đã post ảnh ở khung hình đó)</p>
+
+  <ion-grid no-padding>
+    <ion-row no-padding>
+      <ion-col col-6>
+        <ion-card class="block">
+          <ion-icon [color]="colorImage1" name="camera" class="cameraIcon" (click)="start_camera(1)"></ion-icon>
+          <ion-icon [color]="colorImage1" name="image" class="imageIcon" (click)="show_image(1)"></ion-icon>
+          <ion-icon [color]="colorImage1" name="trash" class="trashIcon" (click)="delete_camera(1)"></ion-icon>
+          <img [src]="base64Image1" />
+        </ion-card>
+      </ion-col>
+      <ion-col col-6>
+        <ion-card class="block">
+          <ion-icon name="camera" [color]="colorImage2" class="cameraIcon" (click)="start_camera(2)"></ion-icon>
+          <ion-icon name="image" [color]="colorImage2" class="imageIcon" (click)="show_image(2)"></ion-icon>
+          <ion-icon name="trash" [color]="colorImage2" class="trashIcon" (click)="delete_camera(2)"></ion-icon>
+          <img [src]="base64Image2" />
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6>
+        <ion-card class="block">
+          <ion-icon name="camera" [color]="colorImage3" class="cameraIcon" (click)="start_camera(3)"></ion-icon>
+          <ion-icon name="image" [color]="colorImage3" class="imageIcon" (click)="show_image(3)"></ion-icon>
+          <ion-icon name="trash" [color]="colorImage3" class="trashIcon" (click)="delete_camera(3)"></ion-icon>
+          <img [src]="base64Image3" />
+        </ion-card>
+      </ion-col>
+      <ion-col col-6 class="cell_toa_do">
+
+        <button ion-button color="navbarColor" full class="button_get_toa_do" (click)="do_button_get_toa_do()">
+          Kiểm tra tọa độ
+        </button>
+
+        <p class="Latitude">Vĩ độ:&nbsp;&nbsp;&nbsp;&nbsp;
+          <span class="thongso_toado">{{ latitude }}</span>
+        </p>
+        <p class="Longitude">Kinh độ:
+          <span class="thongso_toado">{{ longitude }}</span>
+        </p>
+        <p class="Longitude">K.cách:&nbsp;
+          <span class="thongso_toado">{{ distance }}</span>(m)
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <button ion-button icon-end color="navbarColor" full [hidden]="check_toa_do" class="button_hoanthanh" (click)="do_upload_image1()">
+    Post ảnh
+    <ion-icon name="cloud-upload"></ion-icon>
+  </button>
+
+  <button ion-button icon-end color="navbarColor" full [hidden]="check_toa_do || (pageIndex == '1')" class="button_hoanthanh" (click)="check_do_hoan_thanh_dot_bao_duong()">
+    Xác nhận hoàn thành
+    <ion-icon name="done-all"></ion-icon>
+  </button>
+</ion-content>

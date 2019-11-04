@@ -1,0 +1,18 @@
+<ion-list>
+  <ion-item class="item_ttvt">
+    <ion-label>Đài:</ion-label>
+    <ion-select col-10 [(ngModel)]="ttvt_select" (ionChange)="ttvtChange($event)" interface="popover">
+      <ion-option *ngFor="let ttvt of ttvts" [value]="ttvt">{{ttvt.TEN_DAIVT}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- select option trạm thiết bị tại mỗi trung tâm viễn thông -->
+  <ion-item class="item_tram">
+    <ion-label>Trạm:</ion-label>
+    <ion-select class="select_tram" col-8 [(ngModel)]="tram_select" (ionChange)="tramChange($event)" interface="popover" [disabled]="tram_disable">
+      <ion-option *ngFor="let tram of ds_tram" [value]="tram">{{tram.ten_tram}}</ion-option>
+    </ion-select>
+    <button item-end ion-button small class="button_xem" (click)="do_click_button()">Xem</button>
+  </ion-item>
+</ion-list>
+<div class="dia_chi" [hidden]="hide_diachi">{{ dia_chi }}</div>

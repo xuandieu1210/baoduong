@@ -1,0 +1,21 @@
+<!--
+  Generated template for the ModalLuuKienNghiPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content padding>    
+
+    <div class="login-page">
+      <h3>Nhập kiến nghị công việc</h3>
+        <div class="form">
+          <ion-textarea rows="5" [(ngModel)]="kien_nghi_value" ngClass="stafftextarea"></ion-textarea>     
+        </div>
+        <div class="bottom">
+            <button class="huy" (click)="closeModals()">Hủy</button>
+            <button class="nhap" (click) = "luu_kien_nghi()">Nhập</button>
+        </div>
+      </div>
+
+</ion-content>
