@@ -14,7 +14,7 @@
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
 
-    <ion-buttons right (click)="do_take_photo_dotbd()" [hidden]="((appType == 'kehoach') || (pageIndex == '2') || (pageIndex == '3'))">
+    <!-- <ion-buttons right (click)="do_take_photo_dotbd()" [hidden]="((appType == 'kehoach') || (pageIndex == '2') || (pageIndex == '3'))">
       <button ion-button icon-only>
         <ion-icon name="camera"></ion-icon>
       </button>
@@ -24,7 +24,7 @@
       <button ion-button icon-only>
         <ion-icon name="images"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
 
   </ion-navbar>
 
@@ -83,19 +83,19 @@
                     <!-- <p class="noi_dung_canh_bao" [hidden]="((appType == 'kehoach') || (pageIndex == '1') || (ham_bo_dau(child.TRANGTHAI) == 'cho xac nhan') || (ham_bo_dau(child.TRANGTHAI) == 'hoan thanh'))">(Nhân viên bảo dưỡng chưa hoàn thành)</p> -->
                 </ion-col>
                 
-                <ion-col >
-                    <p class="tieu_de">Hình Ảnh: <span *ngIf = "child.ANH != null" class="tieu_de_xemanh"  (click)="xem_anh(child.ANH)">Xem</span> </p> 
+                <ion-col [hidden]="appType == 'kehoach'">
+                    <p class="tieu_de">Hình ảnh: <span *ngIf = "child.ANH != null" class="tieu_de_xemanh"  (click)="xem_anh(child.ANH)">Xem</span> </p> 
                 </ion-col>
-                <ion-col text-right no-padding >
+                <ion-col text-right no-padding [hidden]="appType == 'kehoach'">
                   <div no-padding >
-                    <button [hidden] = "pageIndex == '3'" ion-button class="button_dat" color="red" small outline (click)="start_camera(child)">Đăng Ảnh</button>
+                    <button [hidden] = "pageIndex == '3'" ion-button class="button_dat" color="red" small outline (click)="do_button_get_toa_do1(child)">Đăng Ảnh</button>
                     
                   </div>
 
                 </ion-col>
               </ion-row>
 
-              <ion-row class="row_cv" >
+              <ion-row class="row_cv" [hidden]="appType == 'kehoach'">
                 
                   <ion-col  col-3>
                     <p class="tieu_de">Kết quả:</p>
@@ -157,7 +157,7 @@
               <ion-row class="row_cv_bottom" [hidden]="appType == 'kehoach'">
                 <ion-col col-3>
                   <p *ngIf="pageIndex == '1'" [ngClass]="{'tieu_de_ghichu': child.NOIDUNG.YEUCAUNHAP == '0' , 'tieu_de_ghichu_batbuoc': !(child.NOIDUNG.YEUCAUNHAP == '0')}"
-                  (click)="post_so_lieu(child, 'SOLIEUTHUCTE')">Số liệu:</p>
+                  (click)="post_so_lieu(child )">Số liệu:</p>
                 <p></p>
                 <p  class="tieu_de" *ngIf="(pageIndex == '2') || (pageIndex == '3')">Số liệu:</p>
                   

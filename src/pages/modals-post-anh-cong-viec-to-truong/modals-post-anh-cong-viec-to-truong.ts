@@ -31,9 +31,9 @@ export class ModalsPostAnhCongViecToTruongPage {
   name_image1 = '';
   name_image2 = '';
   name_image3 = '';
-  colorImage1 = 'primary'
-  colorImage2 = 'primary'
-  colorImage3 = 'primary'
+  colorImage1 = 'dark'
+  colorImage2 = 'dark'
+  colorImage3 = 'dark'
   photos = ['', '', ''];
   photos1 = ['', '', ''];
   photo_da_luu;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ModalOptions, Modal, ModalController, ViewController, Refresher, normalizeURL } from 'ionic-angular';
+import { IonicPage, Platform, NavController, NavParams, AlertController, ModalOptions, Modal, ModalController, ViewController, Refresher, normalizeURL } from 'ionic-angular';
 import { ToastControlProvider } from '../../providers/toast-control/toast-control';
 import { ModulChucnangProvider } from '../../providers/modul-chucnang/modul-chucnang';
 import { RestProvider } from '../../providers/rest/rest';
@@ -10,6 +10,8 @@ import { ShowAnhMoiDotbdPage } from '../show-anh-moi-dotbd/show-anh-moi-dotbd';
 import { ModalsPostAnhCongViecCanhanPage } from '../modals-post-anh-cong-viec-canhan/modals-post-anh-cong-viec-canhan';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImageViewerController } from 'ionic-img-viewer';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Diagnostic } from '@ionic-native/diagnostic';
 /**
  * Generated class for the ChitietCongviecKehoachPage page.
  *
@@ -45,11 +47,17 @@ export class ChitietCongviecKehoachPage {
   post_anh = false;
   base64Image1 = '';
   imageViewerCtrl;
+  latitude ;
+  longitude ;
+  distance ;
+  geolocation ;
+  diagnostic;
+  check_toa_do = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,
     private toastCtrl: ToastControlProvider, private modul_chucnang: ModulChucnangProvider, private restProvider: RestProvider,
     private modalCtrl: ModalController, private view: ViewController, private check_token: CheckTokenProvider,
-    private camera: Camera, imageViewerCtrl: ImageViewerController,) {
+    private camera: Camera, imageViewerCtrl: ImageViewerController, private platform: Platform) {
 
     
     this.token = navParams.get('data').access_token
@@ -200,28 +208,29 @@ export class ChitietCongviecKehoachPage {
   }
 
   check_hoanthanh_congviec_canhan(item) {
-    // if (this.id_nhanvien !== this.truong_nhom) {
-    //   this.toastCtrl.showToast('middle', 'Bạn không có quyền thực hiện thao tác này!')
-    // }
+    if (item.ANH == null && item.NOIDUNG.IMAGES == 1) {
+      this.toastCtrl.showErrorToast('middle', 'Vui lòng post ảnh công việc trước khi hoàn thành!')
+    } else {
     // else {
-    let alert = this.alertCtrl.create({
-      title: 'Thông báo!',
-      message: 'Bạn muốn hoàn thành công việc?',
-      buttons: [
-        {
-          text: 'Không',
-          handler: () => {
+      let alert = this.alertCtrl.create({
+        title: 'Thông báo!',
+        message: 'Bạn muốn hoàn thành công việc?',
+        buttons: [
+          {
+            text: 'Không',
+            handler: () => {
+            }
+          },
+          {
+            text: 'Có',
+            handler: () => {
+              this.hoanthanh_congviec_canhan(item)
+            }
           }
-        },
-        {
-          text: 'Có',
-          handler: () => {
-            this.hoanthanh_congviec_canhan(item)
-          }
-        }
-      ]
-    });
-    alert.present();
+        ]
+      });
+      alert.present();
+    }
   }
 
   hoanthanh_congviec_canhan(item) {
@@ -457,34 +466,63 @@ export class ChitietCongviecKehoachPage {
   }
 
   start_camera(item) {
+    // this.diagnostic = new Diagnostic();
+    // this.check_toa_do = true;
+    // if (this.platform.is('android')) {
+    //   this.diagnostic.getLocationMode()
+    //     .then((state) => {
+    //       if (state == this.diagnostic.locationMode.LOCATION_OFF) {
+    //         this.modul_chucnang.show_setting_gps()
+    //         setTimeout(() => {
+    //           this.get_toa_do()
+    //         }, 1500); //sau 1.5 giây
+    //       } else {
+    //         this.get_toa_do()
+    //       }
+    //     }).catch(e => {
+    //       console.error(e)
+    //     });
+    // }
+    // this.do_button_get_toa_do().then(){
 
-    const options: CameraOptions = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
+    // }
+    //this.toastCtrl.showErrorToast('middle', 'Bạn ở quá xa trạm' +  check)
 
-    this.camera.getPicture(options).then((imageData) => {
-     
-      this.base64Image1 = '';
-      this.base64Image1 = normalizeURL(imageData);
-      this.photo = normalizeURL(this.base64Image1);
-      
-      if (this.photo == '') {
-        this.toastCtrl.showErrorToast('middle', 'Hãy chụp 1 ảnh mô tả công việc!')
-      }
-      else {
-        
-        this.upload_image(this.photo, item)
-        this.post_anh = true;
+    this.do_button_get_toa_do().then((data) => {
+      if (data == false) {
+        this.toastCtrl.showErrorToast('middle', 'Bạn ở quá xa trạm, vui lòng đến trạm để đăng hình!')
+      } else {
+        const options: CameraOptions = {
+          quality: 50,
+          destinationType: this.camera.DestinationType.FILE_URI,
+          encodingType: this.camera.EncodingType.JPEG,
+          mediaType: this.camera.MediaType.PICTURE
+        }
+    
+        this.camera.getPicture(options).then((imageData) => {
          
+          this.base64Image1 = '';
+          this.base64Image1 = normalizeURL(imageData);
+          this.photo = normalizeURL(this.base64Image1);
+          
+          if (this.photo == '') {
+            this.toastCtrl.showErrorToast('middle', 'Hãy chụp 1 ảnh mô tả công việc!')
+          }
+          else {
+            
+            this.upload_image(this.photo, item)
+            this.post_anh = true;
+             
+          }
+          
+        }, (err) => {
+          // Handle error
+        });
       }
-      
-    }, (err) => {
-      // Handle error
     });
-
+     
+  
+    
    
   }
 
@@ -499,7 +537,7 @@ export class ChitietCongviecKehoachPage {
         }
       }, (error) => {
         console.log(error)
-        this.toastCtrl.showToast('middle', "Gửi ảnh không thành công!")
+        this.toastCtrl.showErrorToast('middle', "Gửi ảnh không thành công!")
       });
   }
 
@@ -521,22 +559,12 @@ export class ChitietCongviecKehoachPage {
   }
 
 
-  post_so_lieu (child, type) 
+  post_so_lieu (child) 
   {
-    switch (type) {
-      case 'GHICHU':
-        var dulieu = child.GHICHU
-        var title = 'Nhập thay đổi ghi chú'
-        break;
-      case 'KIENNGHI':
-        var dulieu = child.KIENNGHI
-        var title = 'Nhập thay đổi kien nghi'
-        break;
-      default:
-        var dulieu = child.SOLIEUTHUCTE
-        var title = 'Nhập thay đổi số liệu thực tế'
-        break;
-    }
+
+    var dulieu = child.SOLIEUTHUCTE
+    var title = 'Nhập số liệu thực tế'
+
     let alert = this.alertCtrl.create({
       
       title: title,
@@ -560,28 +588,16 @@ export class ChitietCongviecKehoachPage {
           handler: data => {
             if (data.dulieumoi != dulieu) {
               this.restProvider.do_post_log_out(this.ip + 'congviec/luu', this.modul_chucnang.create_json_luu_so_lieu(child.ID_DOTBD.toString(),
-              child.ID_THIETBI.toString(), child.NOIDUNG.MA_NOIDUNG, child.ID_NHANVIEN, data.dulieumoi, type), this.token, 1).then((data1) => {
+              child.ID_THIETBI.toString(), child.NOIDUNG.MA_NOIDUNG, child.ID_NHANVIEN, data.dulieumoi), this.token, 1).then((data1) => {
                 console.log(data1)
                 if (data1['status'] == 1) {
                   this.toastCtrl.showToast('middle', 'Lưu thành công!')
-                  switch (type) {
-                    case 'GHICHU':
-                      child.GHICHU = data.dulieumoi
+                  child.SOLIEUTHUCTE = data.dulieumoi
                       
-                      break;
-                    case 'KIENNGHI':
-                       child.KIENNGHI = data.dulieumoi
-                      
-                      break;
-                    default:
-                      child.SOLIEUTHUCTE = data.dulieumoi
-                      
-                      break;
-                  }
                   
                 }
               }, (error) => {
-                this.toastCtrl.showToast('middle', 'Lưu không thành công!')
+                this.toastCtrl.showErrorToast('middle', 'Lưu không thành công!')
                 console.log(error)
               });
               // logged in!
@@ -594,5 +610,118 @@ export class ChitietCongviecKehoachPage {
       ]
     });
     alert.present();
+  }
+
+  do_button_get_toa_do() {
+    this.diagnostic = new Diagnostic();
+    var check ;
+    if (this.platform.is('android')) {
+      this.diagnostic.getLocationMode()
+        .then((state) => {
+          if (state == this.diagnostic.locationMode.LOCATION_OFF) {
+            this.modul_chucnang.show_setting_gps()
+            setTimeout(() => {
+              check = this.get_toa_do()
+            }, 1500); //sau 1.5 giây
+          } else {
+            check = this.get_toa_do()
+          }
+        }).catch(e => {
+          check = false
+          console.error(e)
+        });
+    }
+    return check;
+  }
+
+  get_toa_do() {
+    this.latitude = ''
+    this.longitude = ''
+    this.distance = ''
+    this.geolocation = new Geolocation();
+    
+
+      let watch = this.geolocation.watchPosition({maximumAge:60000, timeout:5000, enableHighAccuracy:true});
+      watch.subscribe((data) => {
+      // data can be a set of coordinates, or an error (if an error occurred).
+        this.latitude = data.coords.latitude.toFixed(6)
+        this.longitude = data.coords.longitude.toFixed(6)
+        this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(this.toa_do.latitude), parseFloat(this.toa_do.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
+        this.geolocation.clearWatch(watch)
+       
+        
+        // this.check_toa_do = false
+      });
+
+      return (this.distance < 500) ?  false :  true;
+  }
+
+
+
+  do_button_get_toa_do1(item) {
+    this.diagnostic = new Diagnostic();
+    this.check_toa_do = true;
+    if (this.platform.is('android')) {
+      this.diagnostic.getLocationMode()
+        .then((state) => {
+          if (state == this.diagnostic.locationMode.LOCATION_OFF) {
+            this.modul_chucnang.show_setting_gps()
+            // setTimeout(() => {
+            //   this.get_toa_do1(item)
+            // }, 5000); //sau 1.5 giây
+          } else {
+            this.get_toa_do1(item)
+          }
+        }).catch(e => {
+          console.error(e)
+        });
+    }
+  }
+
+  get_toa_do1(item) {
+    this.latitude = ''
+    this.longitude = ''
+    this.distance = ''
+    this.geolocation = new Geolocation();
+    
+      let watch = this.geolocation.watchPosition({maximumAge:60000, timeout:5000, enableHighAccuracy:true});
+      watch.subscribe((data) => {
+      // data can be a set of coordinates, or an error (if an error occurred).
+        this.latitude = data.coords.latitude.toFixed(6)
+        this.longitude = data.coords.longitude.toFixed(6)
+        this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(this.toa_do.latitude), parseFloat(this.toa_do.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
+        // this.check_toa_do = false
+      });
+
+      if (this.distance < 500) {
+        const options: CameraOptions = {
+          quality: 50,
+          destinationType: this.camera.DestinationType.FILE_URI,
+          encodingType: this.camera.EncodingType.JPEG,
+          mediaType: this.camera.MediaType.PICTURE
+        }
+    
+        this.camera.getPicture(options).then((imageData) => {
+         
+          this.base64Image1 = '';
+          this.base64Image1 = normalizeURL(imageData);
+          this.photo = normalizeURL(this.base64Image1);
+          
+          if (this.photo == '') {
+            this.toastCtrl.showErrorToast('middle', 'Hãy chụp 1 ảnh mô tả công việc!')
+          }
+          else {
+            
+            this.upload_image(this.photo, item)
+            this.post_anh = true;
+             
+          }
+          
+        }, (err) => {
+          // Handle error
+        });
+      } else {
+        this.toastCtrl.showErrorLocationToast('middle', 'Vị trí của bạn('+this.latitude+', '+this.longitude+') ở quá xa trạm, vui lòng đến trạm để đăng hình!')
+      }
   }
 }

@@ -43,7 +43,7 @@ export class SqliteProvider {
     this.db.executeSql('CREATE TABLE IF NOT EXISTS `tbl_settings` ( `id` TEXT NOT NULL, `gia_tri` TEXT NOT NULL,`mo_ta` TEXT,  PRIMARY KEY(`id`) )', [])
       .then(() => {
         console.log("Create settings ok");
-        this.db.executeSql('CREATE TABLE IF NOT EXISTS `tbl_account` ( `id` TEXT NOT NULL, `user` TEXT NOT NULL, `pass` TEXT NOT NULL,  `save_pass` TEXT, PRIMARY KEY(`id`) )', [])
+        this.db.executeSql('CREATE TABLE IF NOT EXISTS `tbl_account` ( `id` TEXT NOT NULL, `user` TEXT NOT NULL, `pass` TEXT NOT NULL,  `save_pass` TEXT, `access_token` TEXT, PRIMARY KEY(`id`) )', [])
           .then(() => console.log("Create account ok"))
           .catch(e => console.log(e));
       })
@@ -56,9 +56,22 @@ export class SqliteProvider {
       .catch(e => console.log(e));
   }
 
+  public do_insert_account(id: string,user: string, pass: string, save_pass: string, access_token:string): void {
+    this.db.executeSql('INSERT INTO tbl_account ( id,user, pass, save_pass, access_token ) VALUES (\'' + id + '\',\'' + user + '\',\'' + pass + '\',\'' + save_pass + '\', \'' + access_token + '\')', [])
+      .then(() => console.log("Insert ok"))
+      .catch(e => console.log(e));
+  }
+
   public do_update(id:string,user: string, pass: string, save_pass: string) {
     //this.db.executeSql('UPDATE tbl_account SET id = \'' + id + '\', user = \'' + user + '\', pass = \'' + pass + '\', save_pass = \'' + save_pass + '\'', {})
       this.db.executeSql('UPDATE tbl_account SET user = \'' + user + '\', pass = \'' + pass + '\', save_pass = \'' + save_pass + '\' where id = \'' + id + '\'', [])
+      .then(() => console.log("Update ok"))
+      .catch(e => console.log(e));
+  }
+
+  public do_update_account(id:string,user: string, pass: string, save_pass: string,  access_token:string) {
+    //this.db.executeSql('UPDATE tbl_account SET id = \'' + id + '\', user = \'' + user + '\', pass = \'' + pass + '\', save_pass = \'' + save_pass + '\'', {})
+      this.db.executeSql('UPDATE tbl_account SET user = \'' + user + '\', pass = \'' + pass + '\', save_pass = \'' + save_pass + '\', access_token = \'' + access_token + '\' where id = \'' + id + '\'', [])
       .then(() => console.log("Update ok"))
       .catch(e => console.log(e));
   }
@@ -124,7 +137,8 @@ export class SqliteProvider {
             arrayUser.push({
               user: data.rows.item(j).user,
               pass: data.rows.item(j).pass,
-              save_pass: data.rows.item(j).save_pass
+              save_pass: data.rows.item(j).save_pass,
+              access_token: data.rows.item(j).access_token
             });
           }
         }
@@ -144,7 +158,8 @@ export class SqliteProvider {
             arraySetting.push({
               user: data.rows.item(0).user,
               pass: data.rows.item(0).pass,
-              save_pass: data.rows.item(0).save_pass
+              save_pass: data.rows.item(0).save_pass,
+              access_token: data.rows.item(0).access_token
             });
           }
         }

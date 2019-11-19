@@ -5,6 +5,7 @@ import { ToastControlProvider } from '../../providers/toast-control/toast-contro
 import { ModulChucnangProvider } from '../../providers/modul-chucnang/modul-chucnang';
 import { CheckTokenProvider } from '../../providers/check-token/check-token';
 import { HomePage } from '../home/home';
+import { SqliteProvider } from '../../providers/sqlite/sqlite';
 
 /**
  * Generated class for the PageThongTinPage page.
@@ -59,7 +60,7 @@ export class PageThongTinPage {
     }
   ];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private restProvider: RestProvider,
+  constructor(public navCtrl: NavController, private sqlite: SqliteProvider, public navParams: NavParams, private restProvider: RestProvider,
     private toastCtrl: ToastControlProvider, private modul_chucnang: ModulChucnangProvider,
     private check_token: CheckTokenProvider,
     public alertCtrl: AlertController) {
@@ -74,12 +75,10 @@ export class PageThongTinPage {
     // setTimeout(() => {
     //this.get_thongtin_canhan(this.token)
     //}, 1500);
+    // this.check_token.check_token(this.ip, this.token, this.navCtrl)
 
   }
 
-  ionViewDidLoad() {
-    this.check_token.check_token(this.ip, this.token, this.navCtrl)
-  }
 
   get_ttvt(token) {
     var arr;

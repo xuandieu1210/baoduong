@@ -165,12 +165,12 @@
       </div>
 
 
-      <div *ngIf="(!hidden_bd_kehoach || hide_diachi) && hidden_bd_dangthuchien">
+      <div *ngIf="kehoach_null_data == true">
           <div *ngSwitchCase="'kehoach'"> 
             <p class="text-null"> Không có đợt bảo dưỡng nào trong kế hoạch</p>
           </div>  
       </div> 
-      <div *ngIf="hidden_bd_kehoach && (!hidden_bd_dangthuchien || hide_diachi)">
+      <div *ngIf="thuchien_null_data == true">
           <div *ngSwitchCase="'dangthuchien'"> 
             <p class="text-null"> Không có đợt bảo dưỡng nào đang thực hiện</p>
           </div>  

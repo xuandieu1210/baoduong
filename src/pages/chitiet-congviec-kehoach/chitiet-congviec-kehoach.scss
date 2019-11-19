@@ -28,11 +28,16 @@ page-chitiet-congviec-kehoach {
     font-size: 13px;
     margin-left: -30px;
   }
+  .noi_dung {
+    color: black;
+    font-size: 13px;
+    margin-left: -30px;
+  }
   .tieu_de {
     font-size: 11px;
   }
   .tieu_de1 {
-    font-size: 13px;
+    font-size: 11px;
     margin-bottom: 4px;
   }
   .tieu_de_ghichu {
@@ -40,7 +45,7 @@ page-chitiet-congviec-kehoach {
     text-decoration: underline;
   }
   .tieu_de_danganh {
-    font-size: 13px;
+    font-size: 11px;
     text-decoration: underline;
     color: red;
   }
@@ -82,14 +87,14 @@ page-chitiet-congviec-kehoach {
     height: 100%;
     .button {
       position: absolute; 
-      font-size: 12px;
+      font-size: 11px;
     }
   }
-  .noi_dung {
-    color: black;
-    font-size: 13px;
-    margin-left: -30px;
-  }
+  // .noi_dung {
+  //   color: black;
+  //   font-size: 13px;
+  //   margin-left: -30px;
+  // }
 
   .noi_dung1 {
     color: black;
@@ -111,18 +116,18 @@ page-chitiet-congviec-kehoach {
   }
   .noi_dung_ketqua_dat {
     color: green;
-    font-size: 14px;
+    font-size: 13px;
     margin-left: -30px;
     font-weight: bold;
   }
   .button_dat{
-    font-size: 10px;
+    font-size: 11px;
     margin-top: 1px;
   }
 
   .button_up_anh{
     margin-top: -1px;
-    font-size: 10px;
+    font-size: 11px;
     margin-left: -30px;
   }
 

@@ -64,10 +64,16 @@ $border-color-hover: $color-black;
   //   border: 1px dotted red;
   // }
   .button_xem{
-    margin-top: 14px;
-    height: 36px;
-    text-align: center;
-    color: #102078;
+    padding: 3px 4px 3px;
+    display: block;
+    background-color: #102078;
+    color: white;
+    border: 2px solid $border-color;
+    border-radius: 6px;
+    transition: all .5s ease;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    height: 30px;
   }
   .title_cv{
     margin-left: -20px;

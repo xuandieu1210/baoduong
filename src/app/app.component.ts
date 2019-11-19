@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Events, Nav, AlertController } from 'ionic-angular';
+import { Platform, Events, Nav, AlertController , NavController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
@@ -8,28 +8,41 @@ import { PageItem } from '../model/PageItem';
 import { RestProvider } from '../providers/rest/rest';
 import { ModulChucnangProvider } from '../providers/modul-chucnang/modul-chucnang';
 import { ToastControlProvider } from '../providers/toast-control/toast-control';
+import { PageThongTinPage } from '../pages/page-thong-tin/page-thong-tin';
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage1: any = HomePage;
   ip = '';
-  token;
+  token = '';
   show_ip = true;
   @ViewChild(Nav) nav: Nav;
   pages
   thongtin_canhan;
   username = ''
-  dien_thoai = ''
+  dien_thoai = '';
+  acc1=null;
+  // public rootPage1;
+  // public rootPage: any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private sqlite: SqliteProvider,
-    private events: Events, private restProvider: RestProvider, private modul_chucnang: ModulChucnangProvider,
-    private toastCtrl: ToastControlProvider, public alertCtrl: AlertController) {
-    platform.ready().then(() => {
+     private events: Events, private restProvider: RestProvider, private modul_chucnang: ModulChucnangProvider,
+    private toastCtrl: ToastControlProvider, public alertCtrl: AlertController,) {
+    
+
+
+
+    
+      platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+      
+
+
     });
 
     //this.listenToLoginEvents()
@@ -57,10 +70,12 @@ export class MyApp {
         this.sqlite.do_insert_setting('1', 'http://113.161.7.86/apidemo/', 'dia chi host');
         this.ip = 'http://113.161.7.86/apidemo/';
       }
+      // this.do_get_user()
     }, (error) => {
       console.log(error);
     })
   }
+
 
   do_insert_() {
     var arr;

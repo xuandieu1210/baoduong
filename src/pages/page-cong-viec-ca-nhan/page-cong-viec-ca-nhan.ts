@@ -42,6 +42,9 @@ export class PageCongViecCaNhanPage {
   
   shownGroup_sub_kehoach = null;
   shownGroup_sub_dangthuchien = null;
+
+  kehoach_null_data = false;
+  thuchien_null_data = false;
   
   //activeMenu: string;
   //ipContent = new Array<string>();
@@ -129,6 +132,15 @@ export class PageCongViecCaNhanPage {
     var ds_cv;
     this.restProvider.do_get(this.ip + 'dotbaoduong/danhsachcanhan', this.modul_chucnang.create_json_get_dot_bao_duong1(token, trang_thai, id_dai, id_tram),1).then((data) => {
       ds_cv = data['data'][0]['DS_DotBaoDuong']
+      if (trang_thai == 'kehoach') {
+        if (!ds_cv) {
+          this.kehoach_null_data = true
+        }
+      } else {
+        if (!ds_cv) {
+          this.thuchien_null_data = true
+        }
+      }
       if (ds_cv) {
         this.hidden_bd_kehoach = true
         this.hidden_bd_dangthuchien = true

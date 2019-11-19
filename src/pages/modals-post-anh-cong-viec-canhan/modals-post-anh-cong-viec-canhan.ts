@@ -158,8 +158,8 @@ export class ModalsPostAnhCongViecCanhanPage {
         this.latitude = data.coords.latitude.toFixed(6)
         this.longitude = data.coords.longitude.toFixed(6)
         this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(this.toa_do.latitude), parseFloat(this.toa_do.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
-        // (this.distance < 500) ? this.check_toa_do = false : this.check_toa_do = true;
-        this.check_toa_do = false
+        (this.distance < 500) ? this.check_toa_do = false : this.check_toa_do = true;
+        // this.check_toa_do = false
       });
       this.geolocation.clearWatch(watch)
     } while (this.distance > 500);
@@ -285,7 +285,7 @@ export class ModalsPostAnhCongViecCanhanPage {
 
   do_hoan_thanh_dot_bao_duong() {
     if (!this.post_anh) {
-      this.toastCtrl.showToast('middle', 'Bạn chưa post ảnh!')
+      this.toastCtrl.showErrorToast('middle', 'Bạn chưa post ảnh!')
     }
     else {
       this.restProvider.do_get(this.ip + 'dotbaoduong/hoanthanh', this.modul_chucnang.create_json_get_thuchien_congviec(this.token, this.id_dbd), 1).then((data) => {

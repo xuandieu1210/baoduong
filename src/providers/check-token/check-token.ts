@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { RestProvider } from '../rest/rest';
 import { ModulChucnangProvider } from '../modul-chucnang/modul-chucnang';
 import { HomePage } from '../../pages/home/home';
+import { PageThongTinPage } from '../../pages/page-thong-tin/page-thong-tin';
 import { ToastControlProvider } from '../toast-control/toast-control';
 
 /*
@@ -20,12 +21,16 @@ export class CheckTokenProvider {
 
   check_token(ip, token, nav) {
     this.restProvider.do_get_(ip + 'me', this.modul_chucnang.create_json_access_token(token)).then((data) => {
+      // if (data['status'] ==  1) {
+      //   nav.setRoot(PageThongTinPage)
+      // }
     }, (error) => {
       if (error['errors'] == 'Access token expired') {
         nav.setRoot(HomePage)
-        this.toastCtrl.showToast('middle','Hết phiên làm việc, đăng nhập lại!')
-      }
+        this.toastCtrl.showErrorToast('middle','Hết phiên làm việc, đăng nhập lại!')
+      } 
     });
   }
+
 
 }

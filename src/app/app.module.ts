@@ -10,6 +10,7 @@ import { RestProvider } from '../providers/rest/rest';
 import { HttpClientModule } from '@angular/common/http';
 import { ModulChucnangProvider } from '../providers/modul-chucnang/modul-chucnang';
 import { Network } from "@ionic-native/network";
+// import { Network } from '@ionic-native/network/ngx';
 import { OpenNativeSettings } from "@ionic-native/open-native-settings";
 import { ToastControlProvider } from '../providers/toast-control/toast-control';
 import { ChitietCongviecKehoachPage } from '../pages/chitiet-congviec-kehoach/chitiet-congviec-kehoach';

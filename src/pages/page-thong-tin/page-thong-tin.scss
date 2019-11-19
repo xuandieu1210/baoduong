@@ -42,8 +42,10 @@ page-page-thong-tin {
 
     .cameraIcon {
       position: absolute;
-      top: 35px;
-      left: 55px;
+      top: 50%;
+      left: 50%;
+      
+      transform: translate(-50%, -50%);
       width: 40%;
       height: 40%;
       // zoom: 0.5;
@@ -53,7 +55,7 @@ page-page-thong-tin {
 
   .card-title {
     position: absolute;
-    top: 60%;
+    margin-top: 100px;
     //font-weight: bold;
     // color: #488aff;
     font-size: 15px;

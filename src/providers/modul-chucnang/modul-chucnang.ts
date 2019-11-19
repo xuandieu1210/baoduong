@@ -100,13 +100,13 @@ export class ModulChucnangProvider {
     return myJson;
   }
 
-  create_json_luu_so_lieu(ID_DOTBD, ID_THIETBI, MA_NOIDUNG, ID_NHANVIEN, data, type): Object {
+  create_json_luu_so_lieu(ID_DOTBD, ID_THIETBI, MA_NOIDUNG, ID_NHANVIEN, data): Object {
     var myJson = {};
     myJson["ID_DOTBD"] = ID_DOTBD;
     myJson["ID_THIETBI"] = ID_THIETBI;
     myJson["MA_NOIDUNG"] = MA_NOIDUNG;
     myJson["ID_NHANVIEN"] = ID_NHANVIEN;
-    myJson[type] = data;
+    myJson["SOLIEUTHUCTE"] = data;
     return myJson;
   }
 

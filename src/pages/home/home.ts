@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, MenuController, Events } from 'ionic-angular';
+import { NavController, AlertController, MenuController, Events, Platform } from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
 import { ModulChucnangProvider } from '../../providers/modul-chucnang/modul-chucnang';
 import { Network } from '@ionic-native/network';
@@ -7,6 +7,8 @@ import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { ToastControlProvider } from '../../providers/toast-control/toast-control';
 import { AppVersion } from '@ionic-native/app-version';
 import { SqliteProvider } from '../../providers/sqlite/sqlite';
+import { CheckTokenProvider } from '../../providers/check-token/check-token';
+import { PageThongTinPage } from '../../pages/page-thong-tin/page-thong-tin';
 
 
 @Component({
@@ -20,8 +22,9 @@ export class HomePage {
   //sqlite;
   version
   acc1=null;
+  token;
 
-  constructor(public navCtrl: NavController, private restPro: RestProvider, private modul_chucnang: ModulChucnangProvider,
+  constructor(platform: Platform, public navCtrl: NavController, private check_token: CheckTokenProvider, private restPro: RestProvider, private modul_chucnang: ModulChucnangProvider,
     private network: Network, private alertCtrl: AlertController, private openNativeSettings: OpenNativeSettings,
     private toastCtrl: ToastControlProvider, public menuCtrl: MenuController,
     private appVersion: AppVersion, private events: Events,private sqlite: SqliteProvider) {
@@ -33,56 +36,97 @@ export class HomePage {
     setTimeout(() => {
       this.do_get_user()
     }, 1200);
+
+    
   }
 
   do_get_user() {
-    this.sqlite.get_all_user().then((data) => {
-      console.log(data)
-      this.acc1 = data;
-      if (this.acc1.length != 0) {
-        this.username = this.acc1[0].user;
+    var array;
+    this.sqlite.get_setting().then((data) => {
+      //this.sqlite.do_get_setting_from_id('1').then((data) => {
+        array = data;
+      //rỗng
+      if (array.length != 0) {
+        //gán giá trị ip, ip có thể rỗng
+        this.ip = array[0].gia_tri;
+        //kiểm tra nếu ip ko rỗng
+        if (this.ip) {
+          this.sqlite.get_all_user().then((data) => {
+            console.log(data)
+            this.acc1 = data;
+            if (this.acc1.length != 0) {
+              this.username = this.acc1[0].user;
+              this.token = this.acc1[0].access_token;
+              this.restPro.do_get_(this.ip + 'me', this.modul_chucnang.create_json_access_token(this.token)).then((data) => {
+                if (data['status'] ==  1) {
+                  let params = {};
+                  params = {
+                    access_token: this.token,
+                    ip: this.ip
+                  };
+                  this.navCtrl.setRoot('PageThongTinPage', params);
+                  this.events.publish('loginsuccess', this.ip, this.token);
+                }
+              }, (error) => {
+                
+              });
+            }
+          }, (error) => {
+            console.log(error);
+          })
+        }
       }
-    }, (error) => {
-      console.log(error);
     })
+
   }
 
 
-  do_inser_update(user) {
+  do_inser_update(user, pass, access_token) {
     //table ko có giá trị thì insert
     if (this.acc1.length == 0) {
-      this.sqlite.do_insert("1", user, "11", "0")
+      this.sqlite.do_insert_account("1", user, pass, "0", access_token)
     }
     else {      
         //có row và khác giá trị thì update
-        this.sqlite.do_update("1", user, "22", "0")     
+        this.sqlite.do_update_account("1", user, pass, "0", access_token)     
     }
   }
 
   //hàm kiểm tra internet
   do_check_network() {
     //this.sqlite.createDatabase()
-    if (this.network.type == 'none') {  //trường hợp ko có internet
-      this.do_open_internet_setting();
-    }
-    else {
+    if (this.network.type != 'none' || navigator.onLine) {  //trường hợp ko có internet
+      
       this.do_login();
     }
+    else {
+      this.do_open_internet_setting();
+    }
+
+    // let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+    //   this.do_open_internet_setting();
+    // });
+    // disconnectSubscription.unsubscribe();
+    // let connectSubscription = this.network.onConnect().subscribe(() => {
+      
+    //   // We just got a connection but we need to wait briefly
+    //    // before we determine the connection type. Might need to wait.
+    //   // prior to doing any api requests as well.
+    //   this.do_login();
+    // });
+    
+    // // stop connect watch
+    // connectSubscription.unsubscribe();
   }
   //ham kiểm tra network, ko có thì mở setting wifi hoặc 3g
   do_open_internet_setting() {
     let alert = this.alertCtrl.create({
+      cssClass: 'custom-alert',
       title: 'Thông báo',
       message: 'Bạn có muốn cài đặt network không?',
       buttons: [
         {
-          text: 'Hủy',
-          role: 'cancel',
-          handler: () => {
-          }
-        },
-        {
-          text: '3G',
+          text: '3G/4G',
           handler: () => {
             this.openNativeSettings.open('settings');
             //this.openNativeSettings.open('wireless');
@@ -93,7 +137,14 @@ export class HomePage {
           handler: () => {
             this.openNativeSettings.open('wifi');
           }
+        },
+        {
+          text: 'Hủy',
+          role: 'cancel',
+          handler: () => {
+          }
         }
+        
       ]
     });
     alert.present();
@@ -123,7 +174,7 @@ export class HomePage {
                   ip: this.ip
                 };
                 //nếu đăng nhập thành công thì insert hoặc update tài khoản vào sqlite 
-                this.do_inser_update(this.username)
+                this.do_inser_update(this.username, this.password, token)
 
                 //vào trang pagethongtin
                 this.navCtrl.setRoot('PageThongTinPage', params);

@@ -18,7 +18,7 @@ export class ToastControlProvider {
       message: message,
       position: position,
       duration: 3000,
-      cssClass: 'dangerToastClass',
+      cssClass: 'customToastClass',
     });
 
     toast.onDidDismiss(() => {
@@ -32,6 +32,20 @@ export class ToastControlProvider {
       message: message,
       position: position,
       duration: 3000,
+      cssClass: 'dangerToastClass',
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+    toast.present();
+  }
+
+  showErrorLocationToast(position: string, message: string) {
+    const toast = this.toastCtrl.create({
+      message: message,
+      position: position,
+      duration: 7000,
       cssClass: 'dangerToastClass',
     });
 

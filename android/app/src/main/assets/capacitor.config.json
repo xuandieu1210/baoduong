@@ -1,7 +1,0 @@
-{
-  "appId": "io.ionic.starter",
-  "appName": "baoduong_thietbi",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www"
-}
