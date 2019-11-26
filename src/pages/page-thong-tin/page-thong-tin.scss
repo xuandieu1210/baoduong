@@ -30,37 +30,33 @@ page-page-thong-tin {
     width: 100%;
   }
 
+
   .block {
     position: relative;
     margin-left: 0px;
     margin-bottom: 1px;
-    width: 98%;
+    width: 99%;
     height: 140px;
     text-align: center;
     background-color: yellow;
     border: 2px solid #008CBA;
+    //background-color: #E0FFFF;
 
     .cameraIcon {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      
-      transform: translate(-50%, -50%);
-      width: 40%;
-      height: 40%;
-      // zoom: 0.5;
-      // font-size: 200%;
+      text-align: center;
+      display: block;
+      margin-top: 20%;
+      zoom: 2.5;
     }
   }
 
   .card-title {
     position: absolute;
-    margin-top: 100px;
+    top: 55%;
     //font-weight: bold;
     // color: #488aff;
     font-size: 15px;
     width: 98%;
   }
-
   
 }

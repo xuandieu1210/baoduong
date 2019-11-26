@@ -43,9 +43,9 @@ export class PageCongViecCaNhanPage {
   shownGroup_sub_kehoach = null;
   shownGroup_sub_dangthuchien = null;
 
-  kehoach_null_data = false;
-  thuchien_null_data = false;
-  
+  kehoach_data ;
+  thuchien_data ;
+  showNull = false;
   //activeMenu: string;
   //ipContent = new Array<string>();
 
@@ -71,8 +71,11 @@ export class PageCongViecCaNhanPage {
     }
     
     
-    this.get_ds_dot_bao_duong(this.token, 'kehoach', this.ttvt_select.id_dai, this.tram_select.id_tram, this.hide_diachi)
-    this.get_ds_dot_bao_duong(this.token, 'dangthuchien',this.ttvt_select.id_dai,this.tram_select.id_tram,this.hide_diachi)
+    this.get_ds_dot_bao_duong_kehoach(this.token, 'kehoach', this.ttvt_select.id_dai, this.tram_select.id_tram, this.hide_diachi)
+    this.get_ds_dot_bao_duong_thuchien(this.token, 'dangthuchien',this.ttvt_select.id_dai,this.tram_select.id_tram,this.hide_diachi)
+    setTimeout(()=>{  
+      this.showNull = true;
+    },4000);
   }
 
   ionViewDidLoad() {
@@ -125,51 +128,51 @@ export class PageCongViecCaNhanPage {
   //   this.get_ds_dot_bao_duong(this.token, 'dangthuchien',ev.ttvt_select.ID_DAI.toString(),ev.tram_select.id_tram,this.hide_diachi)
   // }
 
-  get_ds_dot_bao_duong(token, trang_thai, id_dai, id_tram, hide_diachi) {
+  get_ds_dot_bao_duong_kehoach(token, trang_thai, id_dai, id_tram, hide_diachi) {
     this.ds_congviec_kehoach = null;
-    this.ds_congviec_dangthuchien = null;
 
-    var ds_cv;
+    var ds;
     this.restProvider.do_get(this.ip + 'dotbaoduong/danhsachcanhan', this.modul_chucnang.create_json_get_dot_bao_duong1(token, trang_thai, id_dai, id_tram),1).then((data) => {
-      ds_cv = data['data'][0]['DS_DotBaoDuong']
-      if (trang_thai == 'kehoach') {
-        if (!ds_cv) {
-          this.kehoach_null_data = true
-        }
-      } else {
-        if (!ds_cv) {
-          this.thuchien_null_data = true
-        }
-      }
-      if (ds_cv) {
+      ds = data['data'][0]['DS_DotBaoDuong']
+      if (ds) {
         this.hidden_bd_kehoach = true
-        this.hidden_bd_dangthuchien = true
-
         if (hide_diachi) {
-          if (trang_thai == 'kehoach') {
             this.ds_congviec_kehoach = data['data']
-          }
-          else {
-            this.ds_congviec_dangthuchien = data['data']
-            console.log(this.ds_congviec_dangthuchien)
-          }
         }
         else {
-          if (trang_thai == 'kehoach') {
-            this.ds_congviec_kehoach = ds_cv
-          }
-          else if (trang_thai == 'dangthuchien') {
-            this.ds_congviec_dangthuchien = ds_cv
-            console.log(this.ds_congviec_dangthuchien)
-          }
+            this.ds_congviec_kehoach = ds
         }
-      }
+
+       } 
     }, (error) => {
       console.log(error)
       //this.toastCtrl.showToast('middle', 'Không có Đợt bảo dưỡng ' + ((trang_thai == 'kehoach') ? 'trong kế hoạch' : 'đang thực hiện') + ' nào!')
     });
   }
 
+
+  get_ds_dot_bao_duong_thuchien(token, trang_thai, id_dai, id_tram, hide_diachi) {
+    this.ds_congviec_dangthuchien = null;
+
+    var ds_cv;
+    this.restProvider.do_get(this.ip + 'dotbaoduong/danhsachcanhan', this.modul_chucnang.create_json_get_dot_bao_duong1(token, trang_thai, id_dai, id_tram),1).then((data) => {
+      ds_cv = data['data'][0]['DS_DotBaoDuong']
+      if (ds_cv) {
+        this.hidden_bd_dangthuchien = true
+
+        if (hide_diachi) {
+          this.ds_congviec_dangthuchien = data['data']
+        }
+        else {
+
+          this.ds_congviec_dangthuchien = ds_cv
+        }
+       } 
+    }, (error) => {
+      console.log(error)
+      //this.toastCtrl.showToast('middle', 'Không có Đợt bảo dưỡng ' + ((trang_thai == 'kehoach') ? 'trong kế hoạch' : 'đang thực hiện') + ' nào!')
+    });
+  }
   chitiet_congviec(dbd) {
     const myModalOptione: ModalOptions = {
       enableBackdropDismiss: true

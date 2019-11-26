@@ -8,7 +8,7 @@ import { PageItem } from '../model/PageItem';
 import { RestProvider } from '../providers/rest/rest';
 import { ModulChucnangProvider } from '../providers/modul-chucnang/modul-chucnang';
 import { ToastControlProvider } from '../providers/toast-control/toast-control';
-import { PageThongTinPage } from '../pages/page-thong-tin/page-thong-tin';
+import { Storage } from '@ionic/storage';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,7 +16,7 @@ import { PageThongTinPage } from '../pages/page-thong-tin/page-thong-tin';
 export class MyApp {
   rootPage1: any = HomePage;
   ip = '';
-  token = '';
+  token;
   show_ip = true;
   @ViewChild(Nav) nav: Nav;
   pages
@@ -29,7 +29,7 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private sqlite: SqliteProvider,
      private events: Events, private restProvider: RestProvider, private modul_chucnang: ModulChucnangProvider,
-    private toastCtrl: ToastControlProvider, public alertCtrl: AlertController,) {
+    private toastCtrl: ToastControlProvider, private storage: Storage, public alertCtrl: AlertController,) {
     
 
 
@@ -55,44 +55,55 @@ export class MyApp {
   }
 
   do_get_() {
-    var arr;
-    //select từ tbl_setting where id
-    this.sqlite.get_setting().then((data) => {
-      arr = data;
-      //có phần tử
-      if (arr.length != 0) {
-        this.ip = arr[0].gia_tri;
-      }
-      //ko có phần tử
-      else {
-        //tự insert host mặc định là https://113.161.7.83/spsm
-        // this.sqlite.do_insert_setting('1', 'http://10.51.188.10/apidemo/', 'dia chi host');
-        this.sqlite.do_insert_setting('1', 'http://113.161.7.86/apidemo/', 'dia chi host');
-        this.ip = 'http://113.161.7.86/apidemo/';
-      }
-      // this.do_get_user()
+
+    this.storage.get('ip').then((val) => {
+      this.ip = val
     }, (error) => {
-      console.log(error);
-    })
+      this.storage.set('ip', 'http://113.161.7.86/apidemo/');
+      this.ip = "http://113.161.7.86/apidemo/"
+    });
+
+    // var arr;
+    // //select từ tbl_setting where id
+    // this.sqlite.get_setting().then((data) => {
+    //   arr = data;
+    //   //có phần tử
+    //   if (arr.length != 0) {
+    //     this.ip = arr[0].gia_tri;
+    //   }
+    //   //ko có phần tử
+    //   else {
+    //     //tự insert host mặc định là https://113.161.7.83/spsm
+    //     // this.sqlite.do_insert_setting('1', 'http://10.51.188.10/apidemo/', 'dia chi host');
+    //     this.sqlite.do_insert_setting('1', 'http://113.161.7.86/apidemo/', 'dia chi host');
+    //     this.ip = 'http://113.161.7.86/apidemo/';
+    //   }
+    //   // this.do_get_user()
+    // }, (error) => {
+    //   console.log(error);
+    // })
   }
 
 
   do_insert_() {
-    var arr;
-    this.sqlite.get_setting().then((data) => {
-      arr = data;
-      if (arr.length == 0) {
-        //tbl_setting không có phần tử nào thì thực hiện insert
-        this.sqlite.do_insert_setting('1', this.ip, 'dia chi host');
+    // var arr;
+    // this.sqlite.get_setting().then((data) => {
+    //   arr = data;
+    //   if (arr.length == 0) {
+    //     //tbl_setting không có phần tử nào thì thực hiện insert
+    //     this.sqlite.do_insert_setting('1', this.ip, 'dia chi host');
 
-      }
-      else {
-        this.sqlite.do_update_setting('1', this.ip, 'dia chi host');
+    //   }
+    //   else {
+    //     this.sqlite.do_update_setting('1', this.ip, 'dia chi host');
 
-      }
-    }, (error) => {
-      console.log(error);
-    })
+    //   }
+    // }, (error) => {
+    //   console.log(error);
+    // })
+
+    this.storage.set('ip', this.ip);
+    //this.ip = "http://113.161.7.86/apidemo/"
   }
 
   get_link(ip) {

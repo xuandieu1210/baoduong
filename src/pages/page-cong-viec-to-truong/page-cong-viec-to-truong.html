@@ -38,7 +38,7 @@
       <div *ngIf="hidden_bd_kehoach && !hide_diachi">      
           <ion-list *ngSwitchCase="'kehoach'" no-padding>
             <ion-item class="item_baoduong" *ngFor="let item_bd of ds_congviec_kehoach" no-padding>
-              <ion-row class="row_bd_kehoach">
+              <ion-row class="row_bd_kehoach" (click)="chitiet_congviec(item_bd)" >
                 <ion-col col-8 text-wrap>
                   <div>
                     <p class="tieude_baoduong">Đợt bảo dưỡng: {{ item_bd.MA_DOTBD }}</p>
@@ -55,7 +55,7 @@
                 </ion-col>
                 <ion-col>
                   <div text-right>
-                    <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" (click)="chitiet_congviec(item_bd)"></ion-icon>
+                    <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" ></ion-icon>
                   </div>
                 </ion-col>
               </ion-row>
@@ -101,7 +101,7 @@
                     </ion-col>
                     <ion-col>
                       <div text-right>
-                        <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" (click)="chitiet_congviec(item_bd)"></ion-icon>
+                        <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" ></ion-icon>
                       </div>
                     </ion-col>
                   </ion-row>
@@ -126,7 +126,7 @@
                 </ion-col>
                 <ion-col>
                   <div text-right>
-                    <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" (click)="chitiet_congviec(item_bd)"></ion-icon>
+                    <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow"></ion-icon>
   
                   </div>
                 </ion-col>
@@ -165,7 +165,7 @@
                     </ion-col>
                     <ion-col>
                       <div text-right>
-                        <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" (click)="chitiet_congviec(item_bd)"></ion-icon>
+                        <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" ></ion-icon>
   
                       </div>
                     </ion-col>
@@ -177,12 +177,12 @@
         
       </div>
 
-      <div *ngIf="kehoach_null_data == true">
+      <div *ngIf="showNull && (!ds_congviec_kehoach || ds_congviec_kehoach.length == 0)">
           <div *ngSwitchCase="'kehoach'"> 
             <p class="text-null"> Không có đợt bảo dưỡng nào trong kế hoạch</p>
           </div>  
       </div> 
-      <div *ngIf="thuchien_null_data == true">
+      <div *ngIf="showNull && (!ds_congviec_dangthuchien || ds_congviec_dangthuchien.length == 0)">
           <div *ngSwitchCase="'dangthuchien'"> 
             <p class="text-null"> Không có đợt bảo dưỡng nào đang thực hiện</p>
           </div>  

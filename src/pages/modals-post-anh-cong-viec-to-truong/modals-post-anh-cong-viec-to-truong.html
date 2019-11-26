@@ -32,17 +32,17 @@
       <ion-col col-6>
         <ion-card class="block">
           <ion-icon [color]="colorImage1" name="camera" class="cameraIcon" (click)="start_camera(1)"></ion-icon>
-          <ion-icon [color]="colorImage1" name="image" class="imageIcon" (click)="show_image(1)"></ion-icon>
+          <ion-icon [hidden]="base64Image1 == '' || base64Image1 == null" [color]="colorImage1" name="image" class="imageIcon" (click)="xem_anh(base64Image1)"></ion-icon>
           <ion-icon [color]="colorImage1" name="trash" class="trashIcon" (click)="delete_camera(1)"></ion-icon>
-          <img [src]="base64Image1" />
+          <img src="{{base64Image1}}" />
         </ion-card>
       </ion-col>
       <ion-col col-6>
         <ion-card class="block">
           <ion-icon name="camera" [color]="colorImage2" class="cameraIcon" (click)="start_camera(2)"></ion-icon>
-          <ion-icon name="image" [color]="colorImage2" class="imageIcon" (click)="show_image(2)"></ion-icon>
+          <ion-icon [hidden]="base64Image2 == '' || base64Image2 == null" name="image" [color]="colorImage2" class="imageIcon" (click)="xem_anh(base64Image2)"></ion-icon>
           <ion-icon name="trash" [color]="colorImage2" class="trashIcon" (click)="delete_camera(2)"></ion-icon>
-          <img [src]="base64Image2" />
+          <img src="{{base64Image2}}" />
         </ion-card>
       </ion-col>
     </ion-row>
@@ -53,9 +53,9 @@
       <ion-col col-6>
         <ion-card class="block">
           <ion-icon name="camera" [color]="colorImage3" class="cameraIcon" (click)="start_camera(3)"></ion-icon>
-          <ion-icon name="image" [color]="colorImage3" class="imageIcon" (click)="show_image(3)"></ion-icon>
+          <ion-icon [hidden]="base64Image3 == '' || base64Image3 == null" name="image" [color]="colorImage3" class="imageIcon" (click)="xem_anh(base64Image3)"></ion-icon>
           <ion-icon name="trash" [color]="colorImage3" class="trashIcon" (click)="delete_camera(3)"></ion-icon>
-          <img [src]="base64Image3" />
+          <img src="{{base64Image3}}" />
         </ion-card>
       </ion-col>
 

@@ -52,7 +52,7 @@ export class ChitietCongviecKehoachPage {
   distance ;
   geolocation ;
   diagnostic;
-  check_toa_do = true;
+  check_toa_do = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController,
     private toastCtrl: ToastControlProvider, private modul_chucnang: ModulChucnangProvider, private restProvider: RestProvider,
@@ -72,7 +72,7 @@ export class ChitietCongviecKehoachPage {
     this.get_thongtin_canhan()
     
     this.do_get_chitiet_congviec()
-
+    this.do_button_get_toa_do()
   }
 
   ionViewDidLoad() {
@@ -450,7 +450,7 @@ export class ChitietCongviecKehoachPage {
     const data = {
       token: this.token,
       ip: this.ip,
-      image : anh
+      image : this.modul_chucnang.get_image_folder(this.ip) + anh
     }
 
     const myModal: Modal = this.modalCtrl.create(page_next, { data: data }, myModalOptione);
@@ -488,38 +488,38 @@ export class ChitietCongviecKehoachPage {
     // }
     //this.toastCtrl.showErrorToast('middle', 'Bạn ở quá xa trạm' +  check)
 
-    this.do_button_get_toa_do().then((data) => {
-      if (data == false) {
-        this.toastCtrl.showErrorToast('middle', 'Bạn ở quá xa trạm, vui lòng đến trạm để đăng hình!')
-      } else {
-        const options: CameraOptions = {
-          quality: 50,
-          destinationType: this.camera.DestinationType.FILE_URI,
-          encodingType: this.camera.EncodingType.JPEG,
-          mediaType: this.camera.MediaType.PICTURE
-        }
+    // this.do_button_get_toa_do().then((data) => {
+    //   if (data == false) {
+    //     this.toastCtrl.showErrorToast('middle', 'Bạn ở quá xa trạm, vui lòng đến trạm để đăng hình!')
+    //   } else {
+    //     const options: CameraOptions = {
+    //       quality: 50,
+    //       destinationType: this.camera.DestinationType.FILE_URI,
+    //       encodingType: this.camera.EncodingType.JPEG,
+    //       mediaType: this.camera.MediaType.PICTURE
+    //     }
     
-        this.camera.getPicture(options).then((imageData) => {
+    //     this.camera.getPicture(options).then((imageData) => {
          
-          this.base64Image1 = '';
-          this.base64Image1 = normalizeURL(imageData);
-          this.photo = normalizeURL(this.base64Image1);
+    //       this.base64Image1 = '';
+    //       this.base64Image1 = normalizeURL(imageData);
+    //       this.photo = normalizeURL(this.base64Image1);
           
-          if (this.photo == '') {
-            this.toastCtrl.showErrorToast('middle', 'Hãy chụp 1 ảnh mô tả công việc!')
-          }
-          else {
+    //       if (this.photo == '') {
+    //         this.toastCtrl.showErrorToast('middle', 'Hãy chụp 1 ảnh mô tả công việc!')
+    //       }
+    //       else {
             
-            this.upload_image(this.photo, item)
-            this.post_anh = true;
+    //         this.upload_image(this.photo, item)
+    //         this.post_anh = true;
              
-          }
+    //       }
           
-        }, (err) => {
-          // Handle error
-        });
-      }
-    });
+    //     }, (err) => {
+    //       // Handle error
+    //     });
+    //   }
+    // });
      
   
     
@@ -614,24 +614,19 @@ export class ChitietCongviecKehoachPage {
 
   do_button_get_toa_do() {
     this.diagnostic = new Diagnostic();
-    var check ;
-    if (this.platform.is('android')) {
-      this.diagnostic.getLocationMode()
-        .then((state) => {
-          if (state == this.diagnostic.locationMode.LOCATION_OFF) {
-            this.modul_chucnang.show_setting_gps()
-            setTimeout(() => {
-              check = this.get_toa_do()
-            }, 1500); //sau 1.5 giây
-          } else {
-            check = this.get_toa_do()
-          }
-        }).catch(e => {
-          check = false
-          console.error(e)
-        });
-    }
-    return check;
+    this.diagnostic.getLocationMode().then((state) => {
+        if (state == this.diagnostic.locationMode.LOCATION_OFF) {
+          this.modul_chucnang.show_setting_gps()
+          setTimeout(() => {
+            this.get_toa_do()
+          }, 1500); //sau 1.5 giây
+        } else {
+          this.get_toa_do()
+        }
+      }).catch(e => {
+        this.check_toa_do = false
+        console.error(e)
+      });
   }
 
   get_toa_do() {
@@ -641,59 +636,98 @@ export class ChitietCongviecKehoachPage {
     this.geolocation = new Geolocation();
     
 
+    do {
       let watch = this.geolocation.watchPosition({maximumAge:60000, timeout:5000, enableHighAccuracy:true});
       watch.subscribe((data) => {
       // data can be a set of coordinates, or an error (if an error occurred).
         this.latitude = data.coords.latitude.toFixed(6)
         this.longitude = data.coords.longitude.toFixed(6)
         this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(this.toa_do.latitude), parseFloat(this.toa_do.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
-        this.geolocation.clearWatch(watch)
-       
-        
-        // this.check_toa_do = false
+        (this.distance < 500) ? this.check_toa_do = true : this.check_toa_do = false;
+        console.log('khoang cach'+ this.distance)
       });
-
-      return (this.distance < 500) ?  false :  true;
+      this.geolocation.clearWatch(watch)
+    } while (this.distance > 500);
   }
 
 
 
-  do_button_get_toa_do1(item) {
-    this.diagnostic = new Diagnostic();
-    this.check_toa_do = true;
-    if (this.platform.is('android')) {
-      this.diagnostic.getLocationMode()
-        .then((state) => {
-          if (state == this.diagnostic.locationMode.LOCATION_OFF) {
-            this.modul_chucnang.show_setting_gps()
-            // setTimeout(() => {
-            //   this.get_toa_do1(item)
-            // }, 5000); //sau 1.5 giây
-          } else {
-            this.get_toa_do1(item)
-          }
-        }).catch(e => {
-          console.error(e)
-        });
-    }
-  }
+  // do_button_get_toa_do1(item) {
+  //   this.diagnostic = new Diagnostic();
+  //   this.check_toa_do = true;
 
-  get_toa_do1(item) {
-    this.latitude = ''
-    this.longitude = ''
-    this.distance = ''
-    this.geolocation = new Geolocation();
+  //     this.diagnostic.getLocationMode()
+  //       .then((state) => {
+  //         if (state == this.diagnostic.locationMode.LOCATION_OFF) {
+  //           this.modul_chucnang.show_setting_gps()
+  //           // setTimeout(() => {
+  //           //   this.get_toa_do1(item)
+  //           // }, 5000); //sau 1.5 giây
+  //         } else {
+  //           this.get_toa_do1(item)
+  //         }
+  //       }).catch(e => {
+  //         console.error(e)
+  //       });
     
-      let watch = this.geolocation.watchPosition({maximumAge:60000, timeout:5000, enableHighAccuracy:true});
-      watch.subscribe((data) => {
-      // data can be a set of coordinates, or an error (if an error occurred).
-        this.latitude = data.coords.latitude.toFixed(6)
-        this.longitude = data.coords.longitude.toFixed(6)
-        this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(this.toa_do.latitude), parseFloat(this.toa_do.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
-        // this.check_toa_do = false
-      });
+  // }
 
-      if (this.distance < 500) {
+  btn_upload(item) {
+    // this.latitude = ''
+    // this.longitude = ''
+    // this.distance = ''
+    // this.geolocation = new Geolocation();
+    // this.geolocation.getCurrentPosition().then((data) => {
+    //   this.latitude = data.coords.latitude.toFixed(6)
+    //   this.longitude = data.coords.longitude.toFixed(6)
+    //   this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(this.toa_do.latitude), parseFloat(this.toa_do.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
+    //   this.toastCtrl.showErrorLocationToast('middle', 'Vị trí của bạn' +this.latitude+ 'long' + this.longitude + '='+this.distance)
+    //   if (this.distance < 500) {
+    //     const options: CameraOptions = {
+    //       quality: 50,
+    //       destinationType: this.camera.DestinationType.FILE_URI,
+    //       encodingType: this.camera.EncodingType.JPEG,
+    //       mediaType: this.camera.MediaType.PICTURE
+    //     }
+    
+    //     this.camera.getPicture(options).then((imageData) => {
+         
+    //       this.base64Image1 = '';
+    //       this.base64Image1 = normalizeURL(imageData);
+    //       this.photo = normalizeURL(this.base64Image1);
+          
+    //       if (this.photo == '') {
+    //         this.toastCtrl.showErrorToast('middle', 'Hãy chụp 1 ảnh mô tả công việc!')
+    //       }
+    //       else {
+            
+    //         this.upload_image(this.photo, item)
+    //         this.post_anh = true;
+             
+    //       }
+          
+    //     }, (err) => {
+    //       // Handle error
+    //     });
+    //   } else {
+    //     this.toastCtrl.showErrorLocationToast('middle', 'Vị trí của bạn('+this.latitude+', '+this.longitude+') ở quá xa trạm, vui lòng đến trạm để đăng hình!')
+    //   }
+    // }).catch((error) => {
+    //   console.log('Error getting location', error);
+    //   this.toastCtrl.showErrorLocationToast('middle', 'Xin lỗi. Không tìm được vị trí của bạn')
+    // });
+      // let watch = this.geolocation.watchPosition({maximumAge:60000, timeout:5000, enableHighAccuracy:true});
+      // watch.subscribe((data) => {
+      // // data can be a set of coordinates, or an error (if an error occurred).
+      //   this.latitude = data.coords.latitude.toFixed(6)
+      //   this.longitude = data.coords.longitude.toFixed(6)
+      //   this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(this.toa_do.latitude), parseFloat(this.toa_do.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
+        
+      //   // this.check_toa_do = false
+      // });
+      // this.toastCtrl.showErrorLocationToast('middle', 'Vị trí của bạn('+this.latitude+', '+this.longitude+') ở quá xa trạm, vui lòng đến trạm để đăng hình!')
+      // console.log("ád" + this.latitude+'lo'+this.longitude+'=='+this.distance)
+      if (this.check_toa_do == true) {
         const options: CameraOptions = {
           quality: 50,
           destinationType: this.camera.DestinationType.FILE_URI,

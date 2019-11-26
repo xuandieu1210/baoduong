@@ -6,6 +6,7 @@ import { ModulChucnangProvider } from '../../providers/modul-chucnang/modul-chuc
 import { CheckTokenProvider } from '../../providers/check-token/check-token';
 import { HomePage } from '../home/home';
 import { SqliteProvider } from '../../providers/sqlite/sqlite';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the PageThongTinPage page.
@@ -44,26 +45,26 @@ export class PageThongTinPage {
   pages: PageInterface[] = [
     {
       title: 'Công việc cá nhân', title_full: 'Công việc cá nhân', pageName: 'PageCongViecCaNhanPage', tabComponent: 'PageCongViecCaNhanPage', pageIndex: '1',
-      appType: 'dangthuchien', color: 'navbarColor'
+      appType: 'dangthuchien', color: 'navbarColor', icon: 'construct'
     },
     {
       title: 'Xác nhận tổ trưởng', title_full: 'Xác nhận tổ trưởng', pageName: 'PageCongViecToTruongPage', tabComponent: 'PageCongViecToTruongPage', pageIndex: '2',
-      appType: 'kehoach', color: 'navbarColor'
+      appType: 'kehoach', color: 'navbarColor', icon: 'book'
     },
     {
       title: 'Lịch sử hoàn thành', title_full: 'Lịch sử hoàn thành', pageName: 'PageCongViecHoanThanhPage', tabComponent: 'PageCongViecHoanThanhPage', pageIndex: '3',
-      appType: 'hoanthanh', color: 'navbarColor'
+      appType: 'hoanthanh', color: 'navbarColor', icon: 'time'
     },
     {
       title: 'Thông tin cá nhân', title_full: 'Thông tin cá nhân', pageName: 'ModalsThongTinCaNhanPage', tabComponent: 'ModalsThongTinCaNhanPage', pageIndex: '4',
-      appType: 'hoanthanh', color: 'navbarColor'
+      appType: 'hoanthanh', color: 'navbarColor', icon: 'person'
     }
   ];
 
   constructor(public navCtrl: NavController, private sqlite: SqliteProvider, public navParams: NavParams, private restProvider: RestProvider,
     private toastCtrl: ToastControlProvider, private modul_chucnang: ModulChucnangProvider,
     private check_token: CheckTokenProvider,
-    public alertCtrl: AlertController) {
+    public alertCtrl: AlertController,  private storage: Storage) {
 
     this.token = navParams.get('access_token')
     this.ip = navParams.get('ip')
@@ -185,6 +186,7 @@ export class PageThongTinPage {
 
   log_out() {
     this.restProvider.do_post_log_out(this.ip + "logout", {}, this.token, 2).then((data) => {
+      this.storage.set('access_token', "");
       this.navCtrl.setRoot(HomePage)
     }, (error) => {
       console.log(error);

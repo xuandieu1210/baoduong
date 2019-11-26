@@ -73,14 +73,15 @@
       "cordova-open-native-settings": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-camera": {},
-      "cordova-sqlite-storage": {},
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "Tam Ky"
       },
       "cordova.plugins.diagnostic": {},
       "cordova-plugin-app-version": {},
       "com-sarriaroman-photoviewer": {},
-      "es.keensoft.fullscreenimage": {}
+      "es.keensoft.fullscreenimage": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-sqlite-storage": {}
     },
     "platforms": []
   }

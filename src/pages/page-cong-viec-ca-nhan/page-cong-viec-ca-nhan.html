@@ -165,16 +165,7 @@
       </div>
 
 
-      <div *ngIf="kehoach_null_data == true">
-          <div *ngSwitchCase="'kehoach'"> 
-            <p class="text-null"> Không có đợt bảo dưỡng nào trong kế hoạch</p>
-          </div>  
-      </div> 
-      <div *ngIf="thuchien_null_data == true">
-          <div *ngSwitchCase="'dangthuchien'"> 
-            <p class="text-null"> Không có đợt bảo dưỡng nào đang thực hiện</p>
-          </div>  
-      </div> 
+
       <!-- <ion-list *ngSwitchCase="'hoanthanh'" class="accordion-list" no-padding>
       
       <ion-list-header *ngFor="let item of ds_congviec_hoanthanh; let i = index" no-lines no-padding>
@@ -251,6 +242,18 @@
     </ion-list> -->
 
     </div>
+    <div [ngSwitch]="appType">
+      <div *ngIf="showNull && (!ds_congviec_kehoach || ds_congviec_kehoach.length == 0)">
+        <div *ngSwitchCase="'kehoach'"> 
+          <p class="text-null"> Không có đợt bảo dưỡng nào trong kế hoạch</p>
+        </div>  
+    </div> 
+    <div *ngIf="showNull && (!ds_congviec_dangthuchien || ds_congviec_dangthuchien.length == 0)">
+        <div *ngSwitchCase="'dangthuchien'"> 
+          <p class="text-null"> Không có đợt bảo dưỡng nào đang thực hiện</p>
+        </div>  
+    </div> 
 
+    </div>
   </ion-scroll>
 </ion-content>

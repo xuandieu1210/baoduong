@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform, ViewController, normalizeURL } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform, ViewController, normalizeURL, ModalOptions, Modal, ModalController } from 'ionic-angular';
 import { ModulChucnangProvider } from '../../providers/modul-chucnang/modul-chucnang';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { RestProvider } from '../../providers/rest/rest';
@@ -44,7 +44,7 @@ export class ModalsPostAnhCongViecToTruongPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private view: ViewController,
     private modul_chucnang: ModulChucnangProvider, private toastCtrl: ToastControlProvider,
     private camera: Camera, private restProvider1: RestProvider, private restProvider: RestProvider,
-    private platform: Platform, private check_token: CheckTokenProvider, private alertCtrl: AlertController) {
+    private platform: Platform, private check_token: CheckTokenProvider, private alertCtrl: AlertController,  private modalCtrl: ModalController) {
 
     this.id_dbd = this.navParams.get('data').id_dotbd;
     this.token = this.navParams.get('data').token;
@@ -73,21 +73,24 @@ export class ModalsPostAnhCongViecToTruongPage {
       var key = this.modul_chucnang.get_key_name_array(data['data'][ten_key])
       var arr1 = data['data'][ten_key][key[0].toString()]
       this.photo_da_luu = this.modul_chucnang.array_stt_image(arr1, this.ip)
-
+      
       for (var i = 0; i < this.photo_da_luu.length; i++) {
         if (this.photo_da_luu[i].stt == 1) {
           this.colorImage1 = 'danger'
           this.photos1[0] = this.photo_da_luu[i].path
+          this.base64Image1 = this.photos1[0];
         }
 
         else if (this.photo_da_luu[i].stt == 2) {
           this.colorImage2 = 'danger'
           this.photos1[1] = this.photo_da_luu[i].path
+          this.base64Image2 = this.photos1[1];
         }
 
         else {
           this.colorImage3 = 'danger'
           this.photos1[2] = this.photo_da_luu[i].path
+          this.base64Image3 = this.photos1[2];
         }
       }
       console.log(this.photo_da_luu)
@@ -250,4 +253,21 @@ export class ModalsPostAnhCongViecToTruongPage {
     this.view.dismiss(data);
   }
   
+
+  xem_anh(anh) {
+    var page_next;
+    page_next='ModalShowImagePage';
+    const myModalOptione: ModalOptions = {
+      enableBackdropDismiss: false,
+      cssClass: "transactionConfirm-modal"
+    };
+    const data = {
+      token: this.token,
+      ip: this.ip,
+      image : anh
+    }
+
+    const myModal: Modal = this.modalCtrl.create(page_next, { data: data }, myModalOptione);
+    myModal.present();
+  }
 }

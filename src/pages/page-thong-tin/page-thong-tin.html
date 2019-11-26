@@ -43,13 +43,15 @@
     <ion-row no-padding>
       <ion-col col-6 text-center>
         <ion-card class="block" (click)="open_page(pages, 0)">
-          <img  class="cameraIcon" src="../assets/imgs/setting.png"/>
+          <!-- <img  class="cameraIcon" src="../assets/imgs/setting.png"/> -->
+          <ion-icon [color]="pages[0].color" [name]="pages[0].icon" class="cameraIcon" ></ion-icon>
           <ion-label [color]="pages[0].color" class="card-title">{{ pages[0].title_full }}</ion-label>
         </ion-card>
       </ion-col>
       <ion-col col-6>
         <ion-card class="block" (click)="open_page(pages, 1)">
-          <img   class="cameraIcon" src="../assets/imgs/check.png"/>
+          <!-- <img   class="cameraIcon" src="../assets/imgs/check.png"/> -->
+          <ion-icon [color]="pages[1].color" [name]="pages[1].icon" class="cameraIcon" ></ion-icon>
           <!-- <div [color]="pages[1].color" class="card-title">{{ pages[1].title_full }}</div> -->
           <ion-label [color]="pages[1].color" class="card-title">{{ pages[1].title_full }}</ion-label>
         </ion-card>
@@ -58,13 +60,15 @@
     <ion-row>
       <ion-col col-6>
         <ion-card class="block" (click)="open_page(pages, 2)">
-          <img  class="cameraIcon" src="../assets/imgs/list.png"/>
+          <!-- <img  class="cameraIcon" src="../assets/imgs/list.png"/> -->
+          <ion-icon [color]="pages[2].color" [name]="pages[2].icon" class="cameraIcon" ></ion-icon>
           <ion-label [color]="pages[2].color" class="card-title">{{ pages[2].title_full }}</ion-label>
         </ion-card>
       </ion-col>
       <ion-col col-6>
         <ion-card class="block" (click)="open_page(pages,3)">
-          <img  class="cameraIcon" src="../assets/imgs/account.png"/>
+          <!-- <img  class="cameraIcon" src="../assets/imgs/account.png"/> -->
+          <ion-icon [color]="pages[3].color" [name]="pages[3].icon" class="cameraIcon" ></ion-icon>
           <ion-label [color]="pages[3].color" class="card-title">{{ pages[3].title_full }}</ion-label>
           
         </ion-card>

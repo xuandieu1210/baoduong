@@ -333,7 +333,7 @@ export class ModulChucnangProvider {
   array_stt_image(data, ip): Image[] {
     var arr = [];
     for (var i = 0; i < data.length; i++) {
-      arr.push(new Image(data[i].STT, this.get_link_image(ip) + data[i].ANH))
+      arr.push(new Image(data[i].STT, this.get_image_folder(ip) + data[i].ANH))
     }
     return arr;
   }
@@ -347,8 +347,11 @@ export class ModulChucnangProvider {
   }
 
   get_link_image(ip) {//  apidemo/
-    return ip.substring(0, ip.length - 8) + 'mds_demo/uploads/';
+    return ip.substring(0, ip.length - 8) + 'vnpt_mds/uploads/';
   }
 
+  get_image_folder(ip) {
+    return ip.replace('apiv2', 'vnpt_mds/uploads')
+  }
   
 }
