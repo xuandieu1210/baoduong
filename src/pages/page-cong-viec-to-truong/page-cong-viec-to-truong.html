@@ -38,8 +38,8 @@
       <div *ngIf="hidden_bd_kehoach && !hide_diachi">      
           <ion-list *ngSwitchCase="'kehoach'" no-padding>
             <ion-item class="item_baoduong" *ngFor="let item_bd of ds_congviec_kehoach" no-padding>
-              <ion-row class="row_bd_kehoach" (click)="chitiet_congviec(item_bd)" >
-                <ion-col col-8 text-wrap>
+              <ion-row class="row_bd_kehoach"  >
+                <ion-col col-8 text-wrap (click)="chitiet_congviec(item_bd)">
                   <div>
                     <p class="tieude_baoduong">Đợt bảo dưỡng: {{ item_bd.MA_DOTBD }}</p>
                     <!-- <p [hidden]="hide_diachi" class="section_diachi">{{ item_bd.dia_diem}}</p> -->
@@ -55,7 +55,7 @@
                 </ion-col>
                 <ion-col>
                   <div text-right>
-                    <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" ></ion-icon>
+                    <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" (click)="chitiet_congviec(item_bd)"></ion-icon>
                   </div>
                 </ion-col>
               </ion-row>
@@ -85,8 +85,8 @@
   
               <ion-list *ngIf="isGroupShown(i,'kehoach') && item.DS_DotBaoDuong" no-padding>
                 <ion-item class="item_baoduong" *ngFor="let item_bd of item.DS_DotBaoDuong" no-padding>
-                  <ion-row class="row_bd_kehoach1" (click)="chitiet_congviec(item_bd)">
-                    <ion-col col-8 text-wrap>
+                  <ion-row class="row_bd_kehoach1" >
+                    <ion-col col-8 text-wrap (click)="chitiet_congviec(item_bd)">
                       <div>
                         <p class="tieude_baoduong1">Đợt bảo dưỡng: {{ item_bd.MA_DOTBD }}</p>
                         <p>Ngày dự kiến: {{ item_bd.NGAY_DUKIEN}}</p>
@@ -101,7 +101,7 @@
                     </ion-col>
                     <ion-col>
                       <div text-right>
-                        <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" ></ion-icon>
+                        <ion-icon name="arrow-dropright" color="navbarColor" class="icon_arrow" (click)="chitiet_congviec(item_bd)"></ion-icon>
                       </div>
                     </ion-col>
                   </ion-row>
