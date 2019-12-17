@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestProvider } from '../../providers/rest/rest';
 import { ModulChucnangProvider } from '../../providers/modul-chucnang/modul-chucnang';
+import { CheckTokenProvider } from '../../providers/check-token/check-token';
 
 /**
  * Generated class for the ModalsThongTinCaNhanPage page.
@@ -25,13 +26,17 @@ export class ModalsThongTinCaNhanPage {
   chuc_vu;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private restProvider: RestProvider,
-    private modul_chucnang: ModulChucnangProvider) {
+    private modul_chucnang: ModulChucnangProvider, private check_token: CheckTokenProvider) {
 
     this.title = navParams.get('title')
     this.token = this.navParams.get('access_token')
     this.ip = navParams.get('ip')
 
     this.get_thongtin_canhan()
+  }
+
+  ionViewDidLoad() {
+    this.check_token.check_token(this.ip, this.token, this.navCtrl)
   }
 
   get_thongtin_canhan() {

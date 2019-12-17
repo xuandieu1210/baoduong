@@ -6,7 +6,6 @@ import { Network } from '@ionic-native/network';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 import { ToastControlProvider } from '../../providers/toast-control/toast-control';
 import { AppVersion } from '@ionic-native/app-version';
-import { SqliteProvider } from '../../providers/sqlite/sqlite';
 import { CheckTokenProvider } from '../../providers/check-token/check-token';
 import { PageThongTinPage } from '../../pages/page-thong-tin/page-thong-tin';
 import { Storage } from '@ionic/storage';
@@ -28,7 +27,7 @@ export class HomePage {
   constructor(platform: Platform, public navCtrl: NavController, private check_token: CheckTokenProvider, private restPro: RestProvider, private modul_chucnang: ModulChucnangProvider,
     private network: Network, private alertCtrl: AlertController, private openNativeSettings: OpenNativeSettings,
     private toastCtrl: ToastControlProvider, public menuCtrl: MenuController,
-    private appVersion: AppVersion, private events: Events,private sqlite: SqliteProvider, private storage: Storage) {
+    private appVersion: AppVersion, private events: Events, private storage: Storage) {
 
     this.do_get_version()
     // setTimeout(() => {
@@ -49,19 +48,6 @@ export class HomePage {
         this.storage.get('access_token').then((value_token) => {
           this.access_token = value_token;
           console.log(this.access_token)
-          this.restPro.do_get_(this.ip + 'me', this.modul_chucnang.create_json_access_token(this.access_token)).then((data) => {
-            if (data['status'] ==  1) {
-              let params = {};
-              params = {
-                access_token: this.access_token,
-                ip: this.ip
-              };
-              this.navCtrl.setRoot('PageThongTinPage', params);
-              this.events.publish('loginsuccess', this.ip, this.access_token);
-            }
-          }, (error) => {
-            
-          });
         }, (error) => {
           console.log(error)
         });
@@ -187,10 +173,12 @@ export class HomePage {
   }
 
   do_login() {
+    
     var auth = '', token = '', arr
 
 
     if (this.username && this.password) {
+      
       this.storage.get('ip').then((val) => {
         //this.sqlite.do_get_setting_from_id('1').then((data) => {
         //rỗng
@@ -199,42 +187,48 @@ export class HomePage {
           this.ip = val;
           //kiểm tra nếu ip ko rỗng
           if (this.ip) {
-            this.restPro.do_post(this.ip + this.restPro.auth, this.modul_chucnang.create_json_login(this.username, this.password), 1).then(data => {
-              auth = data['data']['authorization_code']
-              this.restPro.do_post(this.ip + this.restPro.token, this.modul_chucnang.create_json_authorization_code(auth), 1).then(data => {
-                token = data['data']['access_token']
 
-                let params = {};
-                params = {
-                  access_token: token,
-                  ip: this.ip
-                };
-                //nếu đăng nhập thành công thì insert hoặc update tài khoản vào sqlite 
-                this.do_inser_update(this.username, this.password, token)
+            
+              this.restPro.do_post(this.ip + this.restPro.auth, this.modul_chucnang.create_json_login(this.username, this.password), 1).then(data => {
+                auth = data['data']['authorization_code']
+                this.restPro.do_post(this.ip + this.restPro.token, this.modul_chucnang.create_json_authorization_code(auth), 1).then(data => {
+                  token = data['data']['access_token']
 
-                //vào trang pagethongtin
-                this.navCtrl.setRoot('PageThongTinPage', params);
-                this.events.publish('loginsuccess', this.ip, token);
-                //this.navCtrl.push(MenuPage,params);
-
+                  let params = {};
+                  params = {
+                    access_token: token,
+                    ip: this.ip
+                  };
+                  
+                  //nếu đăng nhập thành công thì insert hoặc update tài khoản vào sqlite 
+                  this.do_inser_update(this.username, this.password, token)
+                  
+                  //vào trang pagethongtin
+                  
+                  this.navCtrl.push(PageThongTinPage, params);
+                  // this.events.publish('loginsuccess', this.ip, token);
+                  //this.navCtrl.push(MenuPage,params);
+                  
+                }, error => {
+                  console.log(error)
+                })
               }, error => {
                 console.log(error)
+                if (error['status'] == 1) {
+                  this.toastCtrl.showErrorToast('middle', 'The request timed out!')
+                }
+                else {
+                  this.toastCtrl.showErrorToast('middle', 'Tài khoản hoặc mật khẩu không đúng!')
+                }
               })
-            }, error => {
-              console.log(error)
-              if (error['status'] == 1) {
-                this.toastCtrl.showErrorToast('middle', 'The request timed out!')
-              }
-              else {
-                this.toastCtrl.showErrorToast('middle', 'Tài khoản hoặc mật khẩu không đúng!')
-              }
-            })
+            
           }
           //ip rỗng thì mở lại menu
           else {
             this.toastCtrl.showErrorToast('middle', 'Hãy nhập Địa chỉ Host!');
             this.menuCtrl.toggle();
           }
+          
         }
         //chưa insert ip thì mở lại menu
         else {
@@ -318,6 +312,7 @@ export class HomePage {
     // else {
     //   this.toastCtrl.showErrorToast('middle', 'Hãy nhập tài khoản hoặc mật khẩu!');
     // }
+  
   }
 
   do_get_version() {

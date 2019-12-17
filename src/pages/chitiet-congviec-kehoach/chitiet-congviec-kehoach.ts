@@ -72,7 +72,7 @@ export class ChitietCongviecKehoachPage {
     this.get_thongtin_canhan()
     
     this.do_get_chitiet_congviec()
-    this.do_button_get_toa_do()
+    
   }
 
   ionViewDidLoad() {
@@ -143,6 +143,8 @@ export class ChitietCongviecKehoachPage {
       
       // this.ds_cv = this.modul_chucnang.list_ds_cong_viec_chi_tiet(data['data']['DS_CONGVIEC'], this.dot_bd.trang_thai)
       this.toa_do = new Toa_do(data['data']['THONGTIN_DBD']['TRAMVT']['VI_DO'], data['data']['THONGTIN_DBD']['TRAMVT']['KINH_DO'])
+      this.do_button_get_toa_do(this.toa_do)
+      
       // this.truong_nhom = data['data']['THONGTIN_DBD']['ID_NHANVIEN']
     }, (error) => {
       console.log(error);
@@ -444,7 +446,7 @@ export class ChitietCongviecKehoachPage {
     var page_next;
     page_next='ModalShowImagePage';
     const myModalOptione: ModalOptions = {
-      enableBackdropDismiss: false,
+      enableBackdropDismiss: true,
       cssClass: "transactionConfirm-modal"
     };
     const data = {
@@ -612,16 +614,16 @@ export class ChitietCongviecKehoachPage {
     alert.present();
   }
 
-  do_button_get_toa_do() {
+  do_button_get_toa_do(toado) {
     this.diagnostic = new Diagnostic();
     this.diagnostic.getLocationMode().then((state) => {
         if (state == this.diagnostic.locationMode.LOCATION_OFF) {
           this.modul_chucnang.show_setting_gps()
           setTimeout(() => {
-            this.get_toa_do()
+            this.get_toa_do(toado)
           }, 1500); //sau 1.5 giây
         } else {
-          this.get_toa_do()
+          this.get_toa_do(toado)
         }
       }).catch(e => {
         this.check_toa_do = false
@@ -629,7 +631,7 @@ export class ChitietCongviecKehoachPage {
       });
   }
 
-  get_toa_do() {
+  get_toa_do(toado) {
     this.latitude = ''
     this.longitude = ''
     this.distance = ''
@@ -642,12 +644,12 @@ export class ChitietCongviecKehoachPage {
       // data can be a set of coordinates, or an error (if an error occurred).
         this.latitude = data.coords.latitude.toFixed(6)
         this.longitude = data.coords.longitude.toFixed(6)
-        this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(this.toa_do.latitude), parseFloat(this.toa_do.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
-        (this.distance < 500) ? this.check_toa_do = true : this.check_toa_do = false;
+        this.distance = this.modul_chucnang.cal_distance_two_point(parseFloat(toado.latitude), parseFloat(toado.longitude), data.coords.latitude, data.coords.longitude).toFixed(2);
+        (this.distance < 600) ? this.check_toa_do = true : this.check_toa_do = false;
         console.log('khoang cach'+ this.distance)
       });
       this.geolocation.clearWatch(watch)
-    } while (this.distance > 500);
+    } while (this.distance > 600);
   }
 
 

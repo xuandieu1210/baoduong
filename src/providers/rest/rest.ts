@@ -11,7 +11,7 @@ import { LoadingController } from 'ionic-angular';
 @Injectable()
 export class RestProvider {
 
-  apiUrl = 'http://10.51.138.20/api/'
+  apiUrl = 'http://10.51.138.20/apiv2/'
   auth = 'authorize'
   token = 'accesstoken'
 
@@ -19,6 +19,7 @@ export class RestProvider {
   }
 
   do_get(urltype, param, toast_type) {
+    
     let loading = this.loadingCtrl.create({ content: "Xin chờ giây lát..." });
     if (toast_type == 1) {
       loading.present();

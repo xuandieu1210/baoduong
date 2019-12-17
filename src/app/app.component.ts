@@ -3,6 +3,7 @@ import { Platform, Events, Nav, AlertController , NavController} from 'ionic-ang
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
+import { PageThongTinPage } from '../pages/page-thong-tin/page-thong-tin';
 import { SqliteProvider } from '../providers/sqlite/sqlite';
 import { PageItem } from '../model/PageItem';
 import { RestProvider } from '../providers/rest/rest';
@@ -14,7 +15,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage1: any = HomePage;
+  rootPage1: any ;
   ip = '';
   token;
   show_ip = true;
@@ -24,6 +25,7 @@ export class MyApp {
   username = ''
   dien_thoai = '';
   acc1=null;
+  access_token = '';
   // public rootPage1;
   // public rootPage: any;
 
@@ -40,16 +42,16 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      
+      this.do_get_user() 
 
 
     });
 
     //this.listenToLoginEvents()
 
-    setTimeout(() => {
-      this.do_get_();  //lấy giá trị ip,thoigian mặc định
-    }, 1500); //sau 1 giây
+    // setTimeout(() => {
+    //   this.do_get_();  //lấy giá trị ip,thoigian mặc định
+    // }, 1000); //sau 1 giây
 
 
   }
@@ -111,6 +113,76 @@ export class MyApp {
     this.ip = ip
   }
 
+  do_get_user() {
+    this.storage.get('ip').then((val) => {
+      this.ip = val
+      this.storage.get('user').then((value) => {
+        this.username = value;
+        this.storage.get('access_token').then((value_token) => {
+          this.access_token = value_token;
+          console.log(this.access_token)
+          this.restProvider.do_get_(this.ip + 'me', this.modul_chucnang.create_json_access_token(this.access_token)).then((data) => {
+            if (data['status'] ==  1) {
+
+              this.rootPage1 = PageThongTinPage;
+            } else {
+              this.rootPage1 = HomePage;
+            }
+          }, (error) => {
+            this.rootPage1 = HomePage;
+          });
+        }, (error) => {
+          this.rootPage1 = HomePage;
+          console.log(error)
+        });
+      }, (error) => {
+        this.rootPage1 = HomePage;
+        console.log(error)
+      });
+    }, (error) => {
+      this.rootPage1 = HomePage;
+      console.log(error)
+    });
+
+
+    // var array;
+    // this.sqlite.get_setting().then((data) => {
+    //   //this.sqlite.do_get_setting_from_id('1').then((data) => {
+    //     array = data;
+    //   //rỗng
+    //   if (array.length != 0) {
+    //     //gán giá trị ip, ip có thể rỗng
+    //     this.ip = array[0].gia_tri;
+    //     //kiểm tra nếu ip ko rỗng
+    //     if (this.ip) {
+    //       this.sqlite.get_all_user().then((data) => {
+    //         console.log(data)
+    //         this.acc1 = data;
+    //         if (this.acc1.length != 0) {
+    //           this.username = this.acc1[0].user;
+    //           this.access_token = this.acc1[0].access_token;
+    //           this.restPro.do_get_(this.ip + 'me', this.modul_chucnang.create_json_access_token(this.access_token)).then((data) => {
+    //             if (data['status'] ==  1) {
+    //               let params = {};
+    //               params = {
+    //                 access_token: this.access_token,
+    //                 ip: this.ip
+    //               };
+    //               this.navCtrl.setRoot('PageThongTinPage', params);
+    //               this.events.publish('loginsuccess', this.ip, this.access_token);
+    //             }
+    //           }, (error) => {
+                
+    //           });
+    //         }
+    //       }, (error) => {
+    //         console.log(error);
+    //       })
+    //     }
+    //   }
+    // })
+
+  }
   // listenToLoginEvents() {
   //   this.events.subscribe('loginsuccess', (ip, token) => {
   //     this.ip = ip;

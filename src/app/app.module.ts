@@ -29,6 +29,7 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { ModalsPostAnhCongViecCanhanPage } from '../pages/modals-post-anh-cong-viec-canhan/modals-post-anh-cong-viec-canhan';
 import { ModalsPostAnhCongViecToTruongPage } from '../pages/modals-post-anh-cong-viec-to-truong/modals-post-anh-cong-viec-to-truong';
 import { IonicStorageModule } from '@ionic/storage';
+import { PageThongTinPage } from '../pages/page-thong-tin/page-thong-tin';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { IonicStorageModule } from '@ionic/storage';
     // ModalsPostAnhCongViecToTruongPage,
     ShowAnhMoiNhanVienPage,
     ShowAnhMoiDotbdPage,
+    PageThongTinPage
     
   ],
   imports: [
@@ -46,12 +48,13 @@ import { IonicStorageModule } from '@ionic/storage';
     HttpClientModule,
     IonicImageViewerModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
+    PageThongTinPage,
     ChitietCongviecKehoachPage,
     // ModalsPostAnhCongViecCanhanPage,
     // ModalsPostAnhCongViecToTruongPage,

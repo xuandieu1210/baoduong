@@ -23,14 +23,10 @@ export class ModalShowImagePage {
   token;
   ip;
   image;
-  photo = '';
-  photos = [''];
-  post_anh = false;
-  base64Image1 = '';
   constructor(public navCtrl: NavController, private camera: Camera, private restProvider: RestProvider, private toastCtrl: ToastControlProvider, public viewCtrl:ViewController,public navParams: NavParams, private modul_chucnang: ModulChucnangProvider, private check_token: CheckTokenProvider) {
     this.token = this.navParams.get('data').token;
     this.ip = this.navParams.get('data').ip;
-    this.image = this.navParams.get('data').image;
+    this.image = this.navParams.get('data').image+'?'+Math.random();
   }
 
   ionViewDidLoad() {

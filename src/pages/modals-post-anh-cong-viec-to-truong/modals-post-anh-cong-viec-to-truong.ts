@@ -77,19 +77,19 @@ export class ModalsPostAnhCongViecToTruongPage {
       for (var i = 0; i < this.photo_da_luu.length; i++) {
         if (this.photo_da_luu[i].stt == 1) {
           this.colorImage1 = 'danger'
-          this.photos1[0] = this.photo_da_luu[i].path
+          this.photos1[0] = this.photo_da_luu[i].path+'?'+Math.random()
           this.base64Image1 = this.photos1[0];
         }
 
         else if (this.photo_da_luu[i].stt == 2) {
           this.colorImage2 = 'danger'
-          this.photos1[1] = this.photo_da_luu[i].path
+          this.photos1[1] = this.photo_da_luu[i].path+'?'+Math.random()
           this.base64Image2 = this.photos1[1];
         }
 
         else {
           this.colorImage3 = 'danger'
-          this.photos1[2] = this.photo_da_luu[i].path
+          this.photos1[2] = this.photo_da_luu[i].path+'?'+Math.random()
           this.base64Image3 = this.photos1[2];
         }
       }

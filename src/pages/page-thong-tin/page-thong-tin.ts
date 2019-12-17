@@ -5,8 +5,9 @@ import { ToastControlProvider } from '../../providers/toast-control/toast-contro
 import { ModulChucnangProvider } from '../../providers/modul-chucnang/modul-chucnang';
 import { CheckTokenProvider } from '../../providers/check-token/check-token';
 import { HomePage } from '../home/home';
-import { SqliteProvider } from '../../providers/sqlite/sqlite';
+
 import { Storage } from '@ionic/storage';
+
 
 /**
  * Generated class for the PageThongTinPage page.
@@ -61,29 +62,41 @@ export class PageThongTinPage {
     }
   ];
 
-  constructor(public navCtrl: NavController, private sqlite: SqliteProvider, public navParams: NavParams, private restProvider: RestProvider,
+  constructor(public navCtrl: NavController, public navParams: NavParams, private restProvider: RestProvider,
     private toastCtrl: ToastControlProvider, private modul_chucnang: ModulChucnangProvider,
     private check_token: CheckTokenProvider,
-    public alertCtrl: AlertController,  private storage: Storage) {
+    public alertCtrl: AlertController,  private storage: Storage,) {
 
-    this.token = navParams.get('access_token')
-    this.ip = navParams.get('ip')
+    // this.token = navParams.get('access_token')
+    // this.ip = navParams.get('ip')
+
+    this.storage.get('ip').then((val) => {
+      this.ip = val
+    })
+    this.storage.get('access_token').then((value_token) => {
+      this.token = value_token;
+    })
+
+      
 
     // this.token = '97e4b91bc09644a72db9dc664c8f4804'    
     // this.ip = 'http://10.51.138.24/apidemo/'
 
-    this.get_ttvt(this.token)
-    // setTimeout(() => {
-    //this.get_thongtin_canhan(this.token)
-    //}, 1500);
+    
+    setTimeout(() => {
+      this.get_ttvt()
+    }, 1500);
     // this.check_token.check_token(this.ip, this.token, this.navCtrl)
 
   }
 
+  ionViewDidLoad() {
+    this.check_token.check_token(this.ip, this.token, this.navCtrl)
+  }
 
-  get_ttvt(token) {
+  get_ttvt() {
     var arr;
-    this.restProvider.do_get(this.ip + "daivt/index", this.modul_chucnang.create_json_access_token(token), 1).then((data) => {
+    this.restProvider.do_get(this.ip + "daivt/index", this.modul_chucnang.create_json_access_token(this.token), 1).then((data) => {
       //kiểm tra trả về mảng rỗng
       arr = data['data'];
       if (arr.length == 0) {

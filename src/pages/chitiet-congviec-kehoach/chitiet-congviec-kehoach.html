@@ -84,7 +84,7 @@
                 </ion-col>
                 
                 <ion-col [hidden]="appType == 'kehoach'">
-                    <p class="tieu_de">Hình ảnh: <span *ngIf = "child.ANH != null" class="tieu_de_xemanh"  (click)="xem_anh(child.ANH)">Xem</span> </p> 
+                    <p class="tieu_de">Hình ảnh:<span *ngIf = "child.NOIDUNG.IMAGES == 1" class="required">*</span>   <span *ngIf = "child.ANH != null" class="tieu_de_xemanh"  (click)="xem_anh(child.ANH)">Xem</span> </p> 
                 </ion-col>
                 <ion-col text-right no-padding [hidden]="appType == 'kehoach'">
                   <div no-padding >
